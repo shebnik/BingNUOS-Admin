@@ -1,0 +1,12 @@
+{
+    "autorization": "Autorization",
+    "login": "Login",
+    "password": "Password",
+    "email": "Email",
+    "name": "Name",
+    "forgotPassword": "Forgot password?",
+    "resetHere": "Reset here",
+    "emailWrong": "Email is wrong",
+    "passwordWrong": "Password is wrong",
+    "ok": "Ok"
+}
