@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
   static bool emailValid(email) => RegExp(
@@ -25,5 +26,11 @@ class Utils {
       if (isNumberType)
         FilteringTextInputFormatter.allow(RegExp(r'([0-9]+[.,]?[0-9]*)')),
     ];
+  }
+
+  static Future<void> openURL(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw Exception('Could not launch $url');
+    }
   }
 }

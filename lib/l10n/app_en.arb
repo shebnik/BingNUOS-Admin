@@ -1,4 +1,8 @@
 {
+    "lightTheme": "Light Theme",
+    "darkTheme": "Dark Theme",
+    "autoTheme": "Auto Theme",
+    "language": "Language",
     "autorization": "Autorization",
     "login": "Login",
     "password": "Password",
@@ -8,5 +12,16 @@
     "resetHere": "Reset here",
     "emailWrong": "Email is wrong",
     "passwordWrong": "Password is wrong",
-    "ok": "Ok"
+    "ok": "Ok",
+    "more": "More",
+    "instruction": "Instruction",
+    "tutorial": "Tutorial",
+    "notices": "Notices",
+    "logout": "Logout",
+    "instruction1": "You can switch days of the week using the panel at the top.",
+    "instruction2": "With the help of the “+” sign, you can add new groups and new subjects to the schedule.",
+    "instruction3": "In the group addition window, you can specify a specific number for it.",
+    "instruction4": "In the subject addition window, you can specify a specific name, room number, and teacher's name.",
+    "instruction5": "When you click on the subject window, you can change the data in it.",
+    "instruction6": "When you click on the group window, you can change its name."
 }

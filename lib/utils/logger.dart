@@ -6,11 +6,15 @@ class Logger {
   static const String _TAG_ERROR = 'BingnuosError';
 
   static void i(String message) {
-    print('$_TAG: $message');
+    print('[i] $_TAG: $message');
+  }
+
+  static void d(String message) {
+    print('[d] $_TAG: $message');
   }
 
   static void e(String message, [Object? error]) {
-    print('$_TAG_ERROR: $message');
+    print('[e] $_TAG_ERROR: $message');
     if (error != null) {
       print(error);
     }

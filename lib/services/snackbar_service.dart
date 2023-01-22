@@ -15,7 +15,7 @@ class SnackBarService {
         behavior: SnackBarBehavior.floating,
         content: Text(message, style: Theme.of(context).textTheme.headline4),
         margin: const EdgeInsets.only(bottom: 15, left: 15, right: 15),
-        backgroundColor: AppTheme.primaryColor,
+        backgroundColor: AppTheme.primaryLight,
         duration: const Duration(seconds: 5),
         action: SnackBarAction(
           onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),

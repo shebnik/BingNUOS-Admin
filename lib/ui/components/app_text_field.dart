@@ -8,7 +8,6 @@ import '../../constants.dart';
 enum InputType {
   password,
   number,
-  account,
 }
 
 class AppTextField extends StatelessWidget {
@@ -55,12 +54,10 @@ class AppTextField extends StatelessWidget {
                 inputType == InputType.password ? obscureText.value : false,
             keyboardType:
                 inputType == InputType.number ? TextInputType.number : null,
-            style: TextStyle(
-              color: AppTheme.primary(context),
+            style: const TextStyle(
+              color: AppTheme.primaryLight,
               fontFamily: fontMontserrat,
-              fontWeight: inputType == InputType.account
-                  ? FontWeight.w600
-                  : FontWeight.w400,
+              fontWeight: FontWeight.w400,
             ),
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.symmetric(
@@ -88,18 +85,7 @@ class AppTextField extends StatelessWidget {
                         ),
                       ),
                     )
-                  : inputType == InputType.account
-                      ? Padding(
-                          padding: const EdgeInsets.all(0),
-                          child: InkWell(
-                            onTap: accountToggle,
-                            child: const Icon(
-                              Icons.expand_more,
-                              color: AppTheme.primaryBlue,
-                            ),
-                          ),
-                        )
-                      : null,
+                  : null,
             ),
             onChanged: (value) {
               if (inputType == InputType.number && value.contains(',')) {

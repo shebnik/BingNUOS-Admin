@@ -1,6 +1,8 @@
+
+import 'package:bingnuos_admin_panel/providers/app_theme_provider.dart';
 import 'package:bingnuos_admin_panel/services/app_router.dart';
 import 'package:bingnuos_admin_panel/services/firebase/auth_service.dart';
-import 'package:bingnuos_admin_panel/ui/theme/app_theme.dart';
+import 'package:bingnuos_admin_panel/services/hive_service.dart';
 import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -32,12 +34,20 @@ void main() async {
   //   }
   // }
 
+  await HiveService.initialize();
+
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (_) => AppThemeProvider(),
+        ),
         Provider(
           create: (_) => AuthService(),
         ),
+        Provider(
+          create: (_) => HiveService(),
+        )
       ],
       child: const MyApp(),
     ),
@@ -66,26 +76,29 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final router = AppRouter(userChanges).router;
 
-    return MaterialApp.router(
-      routeInformationProvider: router.routeInformationProvider,
-      routeInformationParser: router.routeInformationParser,
-      routerDelegate: router.routerDelegate,
-      debugShowCheckedModeBanner: false,
-      title: AppLocale(context).appName,
-      theme: AppTheme.themeLight,
-      darkTheme: AppTheme.themeDark,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en', ''),
-        Locale('uk', ''),
-        Locale('ru', ''),
-      ],
-      scrollBehavior: AppScrollBehavior(),
+    return Consumer<AppThemeProvider>(
+       builder: (context, themeProvider, _) {
+        return MaterialApp.router(
+          theme: themeProvider.selectedTheme,
+          routeInformationProvider: router.routeInformationProvider,
+          routeInformationParser: router.routeInformationParser,
+          routerDelegate: router.routerDelegate,
+          debugShowCheckedModeBanner: false,
+          title: AppLocale(context).appName,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en', ''),
+            Locale('uk', ''),
+            Locale('ru', ''),
+          ],
+          scrollBehavior: AppScrollBehavior(),
+        );
+      },
     );
   }
 }

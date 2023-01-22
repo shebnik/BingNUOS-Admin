@@ -14,6 +14,8 @@ class AuthService {
 
   User? get user => _auth.currentUser;
 
+  bool get isSignedIn => _auth.currentUser != null;
+
   AuthService() {
     authStateChanges.listen((User? user) {
       if (user == null) {

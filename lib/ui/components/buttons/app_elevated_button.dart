@@ -13,7 +13,7 @@ class AppElevatedButton extends StatelessWidget {
     required this.title,
     required this.onPressed,
     this.isDisabled,
-    this.color = AppTheme.primaryColor,
+    this.color = AppTheme.primaryLight,
   }) : super(key: key);
 
   @override
