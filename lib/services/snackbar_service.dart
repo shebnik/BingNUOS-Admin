@@ -13,13 +13,17 @@ class SnackBarService {
       SnackBar(
         elevation: 16,
         behavior: SnackBarBehavior.floating,
-        content: Text(message, style: Theme.of(context).textTheme.headline4),
+        content: Text(
+          message,
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
         margin: const EdgeInsets.only(bottom: 15, left: 15, right: 15),
         backgroundColor: AppTheme.primaryLight,
         duration: const Duration(seconds: 5),
         action: SnackBarAction(
           onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
           label: AppLocale(context).ok,
+          textColor: Colors.white,
         ),
       ),
     );

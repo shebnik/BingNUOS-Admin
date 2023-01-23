@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
         },
       );
     return Scaffold(
-      appBar: HomePageAppBar(),
+      appBar: const HomePageAppBar(),
       body: userBoxListenableBuilder,
     );
   }

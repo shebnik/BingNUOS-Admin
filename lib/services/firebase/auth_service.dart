@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:bingnuos_admin_panel/services/snackbar_service.dart';
 import 'package:bingnuos_admin_panel/constants.dart';
+import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 import 'package:bingnuos_admin_panel/utils/logger.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
-
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -16,7 +16,7 @@ class AuthService {
 
   bool get isSignedIn => _auth.currentUser != null;
 
-  AuthService() {
+  void initialize() {
     authStateChanges.listen((User? user) {
       if (user == null) {
         Logger.i('User is currently signed out!');
@@ -37,24 +37,37 @@ class AuthService {
       Logger.i('user: ${_auth.currentUser!.email} is logged in!');
       return true;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        Logger.i('No user found for that email.');
-        SnackBarService(context).show('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        Logger.i('Wrong password provided for that user.');
-        SnackBarService(context).show('Wrong password provided for that user.');
-      } else {
-        Logger.e('createAccount error:', e);
-        SnackBarService(context).show(e.message ?? loginError);
-      }
+      Logger.e('logIn error', e);
+      SnackBarService(context).show(getFirebaseAuthErrorMessage(e, context));
     } catch (e) {
       Logger.e('logIn error', e);
+      SnackBarService(context).show(loginError);
     }
 
     return false;
   }
 
+  String getFirebaseAuthErrorMessage(e, context) {
+    String extractedMessage = e.toString().split("(")[1].split(")")[0];
+    String code = extractedMessage.split("/")[1];
+    switch (code) {
+      case 'invalid-email':
+      case 'user-not-found':
+        return AppLocale(context).emailWrong;
+      case 'wrong-password':
+        return AppLocale(context).passwordWrong;
+      default:
+        final match = RegExp(r"Firebase: (.*?)\(").firstMatch(e.toString());
+        return match?.group(1) ?? loginError;
+    }
+  }
+
   Future<void> signOut() async {
+    Logger.i('Signing out');
     await _auth.signOut();
+  }
+
+  Future<void> resetPassword(String email) async {
+    await _auth.sendPasswordResetEmail(email: email);
   }
 }

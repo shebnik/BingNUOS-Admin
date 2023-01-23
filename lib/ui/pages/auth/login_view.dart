@@ -2,6 +2,7 @@ import 'package:bingnuos_admin_panel/constants.dart';
 import 'package:bingnuos_admin_panel/services/firebase/auth_service.dart';
 import 'package:bingnuos_admin_panel/ui/components/app_text_field.dart';
 import 'package:bingnuos_admin_panel/ui/components/bing_nuos_auth/bing_nuos_auth_widget.dart';
+import 'package:bingnuos_admin_panel/ui/components/bing_nuos_auth/forgot_password_login_widget.dart';
 import 'package:bingnuos_admin_panel/ui/components/buttons/app_elevated_button.dart';
 import 'package:bingnuos_admin_panel/ui/theme/app_theme.dart';
 import 'package:bingnuos_admin_panel/utils/app_locale.dart';
@@ -27,7 +28,11 @@ class _LoginViewState extends State<LoginView> {
   final isPasswordError = ValueNotifier<bool>(false);
   final isLoading = ValueNotifier<bool>(false);
 
-  void login() async {
+  void _resetPassword() {
+    context.go(resetPasswordLoc);
+  }
+
+  void _login() async {
     isEmailError.value = false;
     isPasswordError.value = false;
     isLoading.value = true;
@@ -42,7 +47,6 @@ class _LoginViewState extends State<LoginView> {
             context: context,
           );
     }
-
     isLoading.value = false;
   }
 
@@ -71,7 +75,7 @@ class _LoginViewState extends State<LoginView> {
               alignment: Alignment.center,
               child: Text(
                 AppLocale(context).login,
-                style: Theme.of(context).textTheme.headline3,
+                style: Theme.of(context).textTheme.displayMedium,
               ),
             ),
             const SizedBox(height: 16),
@@ -96,45 +100,10 @@ class _LoginViewState extends State<LoginView> {
                 showError: showError,
               ),
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                margin: const EdgeInsets.only(top: 26),
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: AppLocale(context).forgotPassword,
-                        style: Theme.of(context).textTheme.bodyText2,
-                      ),
-                      const WidgetSpan(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 4),
-                        ),
-                      ),
-                      WidgetSpan(
-                        child: MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: GestureDetector(
-                            child: Text(
-                              AppLocale(context).resetHere,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  ?.copyWith(
-                                    color: AppTheme.primaryLight,
-                                  ),
-                            ),
-                            onTap: () {
-                              context.go(resetPasswordLoc);
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            ForgotPasswordLoginWidget(
+              text: AppLocale(context).forgotPassword,
+              buttonText: AppLocale(context).resetHere,
+              onTap: _resetPassword,
             ),
             Container(
               margin: const EdgeInsets.only(top: 20),
@@ -146,16 +115,22 @@ class _LoginViewState extends State<LoginView> {
                     height: 40,
                     child: ValueListenableBuilder<bool>(
                       valueListenable: isLoading,
-                      builder: (context, isDisabled, child) =>
-                          AppElevatedButton(
-                        title: AppLocale(context).login,
-                        isDisabled: isDisabled,
-                        onPressed: login,
-                      ),
+                      builder: (context, isDisabled, child) {
+                        return AppElevatedButton(
+                          title: AppLocale(context).login,
+                          isDisabled: isDisabled,
+                          onPressed: _login,
+                        );
+                      },
                     ),
                   ),
                 ],
               ),
+            ),
+            ValueListenableBuilder(
+              valueListenable: isLoading,
+              builder: (context, value, child) =>
+                  value ? const CircularProgressIndicator() : Container(),
             ),
           ],
         ),

@@ -1,5 +1,4 @@
-import 'dart:math';
-
+import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 import 'package:flutter/material.dart';
 
 class ErrorPage extends StatelessWidget {
@@ -11,8 +10,8 @@ class ErrorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        '404\nPage not found\n\n${error.toString()}',
-        style: Theme.of(context).textTheme.headline1,
+        '404\n${AppLocale(context).pageNotFound}\n\n${error.toString()}',
+        style: Theme.of(context).textTheme.headlineLarge,
       ),
     );
   }

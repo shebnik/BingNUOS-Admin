@@ -17,7 +17,8 @@ class AppRouter {
   late final router = GoRouter(
     refreshListenable: firebaseUser,
     redirect: (context, state) {
-      final bool loggingIn = state.subloc == loginLoc || state.subloc == resetPasswordLoc;
+      final bool loggingIn =
+          state.subloc == loginLoc || state.subloc == resetPasswordLoc;
       final bool loggedIn = firebaseUser.value != null;
 
       if (!loggedIn && !loggingIn) {
@@ -43,7 +44,7 @@ class AppRouter {
       GoRoute(
         path: resetPasswordLoc,
         builder: (context, routerState) => const ResetPasswordView(),
-      ),  
+      ),
     ],
     errorPageBuilder: (context, state) => MaterialPage<void>(
       key: state.pageKey,

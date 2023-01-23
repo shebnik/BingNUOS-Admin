@@ -1,6 +1,6 @@
 import 'package:bingnuos_admin_panel/constants.dart';
 import 'package:bingnuos_admin_panel/services/firebase/auth_service.dart';
-import 'package:bingnuos_admin_panel/ui/dialogs/instruction/instruction_dialog.dart';
+import 'package:bingnuos_admin_panel/ui/dialogs/tutorial/tutorial_dialog.dart';
 import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 import 'package:bingnuos_admin_panel/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +29,7 @@ class _HomeAppBarActionsState extends State<HomeAppBarActions> {
         break;
       case 2:
         // Log out
-        await Provider.of<AuthService>(context).signOut();
+        await context.read<AuthService>().signOut();
         break;
     }
   }
@@ -49,18 +49,24 @@ class _HomeAppBarActionsState extends State<HomeAppBarActions> {
         return [
           PopupMenuItem(
             value: 0,
-            child: Text(AppLocale(context).tutorial,
-                style: Theme.of(context).textTheme.bodyText1!),
+            child: Text(
+              AppLocale(context).tutorial,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
           PopupMenuItem(
             value: 1,
-            child: Text(AppLocale(context).notices,
-                style: Theme.of(context).textTheme.bodyText1!),
+            child: Text(
+              AppLocale(context).notices,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
           PopupMenuItem(
             value: 2,
-            child: Text(AppLocale(context).logout,
-                style: Theme.of(context).textTheme.bodyText1!),
+            child: Text(
+              AppLocale(context).logout,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
         ];
       },

@@ -5,27 +5,29 @@ class AppElevatedButton extends StatelessWidget {
   final String title;
   final void Function()? onPressed;
 
-  final bool? isDisabled;
+  final bool isDisabled;
   final Color color;
 
   const AppElevatedButton({
     Key? key,
     required this.title,
     required this.onPressed,
-    this.isDisabled,
+    this.isDisabled = false,
     this.color = AppTheme.primaryLight,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: isDisabled ?? false ? null : onPressed,
+      onPressed: isDisabled ? null : onPressed,
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(color),
+        backgroundColor: isDisabled
+            ? MaterialStateProperty.all(Colors.grey)
+            : MaterialStateProperty.all(color),
       ),
       child: Text(
         title,
-        style: Theme.of(context).textTheme.button,
+        style: Theme.of(context).textTheme.labelMedium,
       ),
     );
   }

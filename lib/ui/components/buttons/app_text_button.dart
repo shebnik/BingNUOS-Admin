@@ -16,7 +16,7 @@ class AppTextButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         title,
-        style: Theme.of(context).textTheme.button,
+        style: Theme.of(context).textTheme.labelMedium,
       ),
     );
   }

@@ -18,15 +18,30 @@ class AppTheme {
           color: primaryLight,
         ),
         textTheme: const TextTheme(
-          bodyText1: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
+          headlineLarge: TextStyle(
             color: primaryLight,
-          ),
-          button: TextStyle(
-            color: Colors.white,
+            fontSize: 48,
             fontWeight: FontWeight.bold,
+          ),
+          headlineMedium: TextStyle(
+            color: Colors.white,
+          ),
+          displayMedium: TextStyle(
+            color: Colors.black,
+          ),
+          labelLarge: TextStyle(
+            color: Colors.black,
+            fontSize: 18,
+          ),
+          labelMedium: TextStyle(
+            color: Colors.white,
             fontSize: 16,
+          ),
+          titleLarge: TextStyle(
+            color: Colors.black,
+          ),
+          titleMedium: TextStyle(
+            color: Colors.black,
           ),
         ),
         iconTheme: const IconThemeData(
@@ -42,21 +57,30 @@ class AppTheme {
           color: primaryDark,
         ),
         textTheme: const TextTheme(
-          headline3: TextStyle(
+          headlineLarge: TextStyle(
             color: Colors.white,
-          ),
-          bodyText1: TextStyle(
-            fontSize: 14,
+            fontSize: 48,
             fontWeight: FontWeight.bold,
+          ),
+          headlineMedium: TextStyle(
             color: Colors.white,
           ),
-          bodyText2: TextStyle(
+          displayMedium: TextStyle(
             color: Colors.white,
           ),
-          button: TextStyle(
+          labelLarge: TextStyle(
             color: Colors.white,
-            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+          labelMedium: TextStyle(
+            color: Colors.white,
             fontSize: 16,
+          ),
+          titleLarge: TextStyle(
+            color: Colors.white,
+          ),
+          titleMedium: TextStyle(
+            color: Colors.white,
           ),
         ),
       );

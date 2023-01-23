@@ -1,9 +1,6 @@
-import 'package:bingnuos_admin_panel/ui/theme/app_theme.dart';
 import 'package:bingnuos_admin_panel/utils/utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
-import '../../constants.dart';
 
 enum InputType {
   password,
@@ -54,11 +51,7 @@ class AppTextField extends StatelessWidget {
                 inputType == InputType.password ? obscureText.value : false,
             keyboardType:
                 inputType == InputType.number ? TextInputType.number : null,
-            style: const TextStyle(
-              color: AppTheme.primaryLight,
-              fontFamily: fontMontserrat,
-              fontWeight: FontWeight.w400,
-            ),
+            style: Theme.of(context).textTheme.labelLarge,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.symmetric(
                 vertical: 20.0,
