@@ -11,8 +11,8 @@ class AppTextField extends StatelessWidget {
   const AppTextField({
     Key? key,
     required this.controller,
-    this.label = '',
-    this.hint = '',
+    this.labelText,
+    this.hintText,
     this.inputType,
     this.showError = false,
     this.errorText,
@@ -22,8 +22,8 @@ class AppTextField extends StatelessWidget {
   }) : super(key: key);
 
   final TextEditingController controller;
-  final String label;
-  final String hint;
+  final String? labelText;
+  final String? hintText;
   final InputType? inputType;
   final bool showError;
   final String? errorText;
@@ -60,9 +60,9 @@ class AppTextField extends StatelessWidget {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16.0),
               ),
-              labelText: label,
+              labelText: labelText,
               isDense: true,
-              hintText: hint,
+              hintText: hintText,
               errorText: showError ? errorText : null,
               prefixIcon: prefixIcon,
               suffixIcon: inputType == InputType.password

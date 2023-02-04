@@ -1,4 +1,5 @@
 import 'package:bingnuos_admin_panel/providers/app_theme_provider.dart';
+import 'package:bingnuos_admin_panel/providers/weekday_provider.dart';
 import 'package:bingnuos_admin_panel/services/app_router.dart';
 import 'package:bingnuos_admin_panel/services/firebase/auth_service.dart';
 import 'package:bingnuos_admin_panel/services/hive_service.dart';
@@ -41,6 +42,9 @@ void main() async {
       providers: [
         ChangeNotifierProvider(
           create: (_) => AppThemeProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => WeekdayProvider(),
         ),
         Provider(
           create: (_) => AuthService(),

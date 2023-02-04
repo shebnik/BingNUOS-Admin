@@ -14,19 +14,6 @@ extension StreamExtensions<T> on Stream<T> {
     return notifier;
   }
 
-  // // Edit: added nullable version
-  // ValueListenable<T?> toNullableValueNotifier{
-  //   bool Function(T? previous, T? current)? notifyWhen,
-  // }) {
-  //   final notifier = ValueNotifier<T?>(null);
-  //   listen((value) {
-  //     if (notifyWhen == null || notifyWhen(notifier.value, value)) {
-  //       notifier.value = value;
-  //     }
-  //   });
-  //   return notifier;
-  // }
-
   Listenable toListenable() {
     final notifier = ChangeNotifier();
     listen((_) {

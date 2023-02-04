@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:bingnuos_admin_panel/models/app_user.dart';
+import 'package:bingnuos_admin_panel/models/app_user/app_user.dart';
 import 'package:bingnuos_admin_panel/utils/logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';

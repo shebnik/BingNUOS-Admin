@@ -1,5 +1,5 @@
 name: bingnuos_admin_panel
-description: A new Flutter project.
+description: BINGNUOS Admin Panel
 
 publish_to: 'none'
 
@@ -25,6 +25,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   url_launcher: ^6.1.8
+  flutter_multiselect: ^1.0.0
 
 dev_dependencies:
   flutter_test:

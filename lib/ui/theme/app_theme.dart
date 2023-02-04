@@ -26,6 +26,10 @@ class AppTheme {
           headlineMedium: TextStyle(
             color: Colors.white,
           ),
+          headlineSmall: TextStyle(
+            color: Colors.black,
+            fontSize: 24,
+          ),
           displayMedium: TextStyle(
             color: Colors.black,
           ),
@@ -34,8 +38,12 @@ class AppTheme {
             fontSize: 18,
           ),
           labelMedium: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontSize: 16,
+          ),
+          labelSmall: TextStyle(
+            color: Colors.black,
+            fontSize: 14,
           ),
           titleLarge: TextStyle(
             color: Colors.black,
@@ -46,6 +54,26 @@ class AppTheme {
         ),
         iconTheme: const IconThemeData(
           color: Colors.white,
+        ),
+        chipTheme: const ChipThemeData(
+          backgroundColor: Colors.white,
+          selectedColor: primaryLight,
+          secondarySelectedColor: primaryLight,
+          disabledColor: Colors.grey,
+          secondaryLabelStyle: TextStyle(
+            color: Colors.white,
+          ),
+          labelStyle: TextStyle(
+            color: Colors.black,
+          ),
+          brightness: Brightness.light,
+          padding: EdgeInsets.all(8),
+          shape: StadiumBorder(),
+          elevation: 2,
+          shadowColor: Colors.grey,
+          selectedShadowColor: Colors.grey,
+          showCheckmark: false,
+          checkmarkColor: Colors.white,
         ),
       );
 
@@ -65,6 +93,10 @@ class AppTheme {
           headlineMedium: TextStyle(
             color: Colors.white,
           ),
+          headlineSmall: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+          ),
           displayMedium: TextStyle(
             color: Colors.white,
           ),
@@ -76,12 +108,39 @@ class AppTheme {
             color: Colors.white,
             fontSize: 16,
           ),
+          labelSmall: TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+          ),
           titleLarge: TextStyle(
             color: Colors.white,
           ),
           titleMedium: TextStyle(
             color: Colors.white,
           ),
+          bodyMedium: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        chipTheme: const ChipThemeData(
+          backgroundColor: Colors.grey,
+          selectedColor: primaryDark,
+          secondarySelectedColor: primaryDark,
+          disabledColor: Colors.grey,
+          secondaryLabelStyle: TextStyle(
+            color: Colors.white,
+          ),
+          labelStyle: TextStyle(
+            color: Colors.white,
+          ),
+          brightness: Brightness.dark,
+          padding: EdgeInsets.all(8),
+          shape: StadiumBorder(),
+          elevation: 2,
+          shadowColor: Colors.grey,
+          selectedShadowColor: Colors.grey,
+          showCheckmark: false,
+          checkmarkColor: Colors.white,
         ),
       );
 }

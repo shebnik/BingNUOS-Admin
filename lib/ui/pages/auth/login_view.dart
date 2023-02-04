@@ -40,7 +40,7 @@ class _LoginViewState extends State<LoginView> {
     String email = emailTextFieldController.value.text.trim().toLowerCase();
     String password = passwordTextFieldController.value.text;
 
-    if (validate(email, password)) {
+    if (_validate(email, password)) {
       await context.read<AuthService>().signInWithEmailAndPassword(
             email: email,
             password: password,
@@ -50,7 +50,7 @@ class _LoginViewState extends State<LoginView> {
     isLoading.value = false;
   }
 
-  bool validate(String email, String password) {
+  bool _validate(String email, String password) {
     if (!Utils.emailValid(email)) {
       isEmailError.value = true;
       return false;
@@ -83,7 +83,7 @@ class _LoginViewState extends State<LoginView> {
               valueListenable: isEmailError,
               builder: (context, showError, child) => AppTextField(
                 key: const Key("email"),
-                label: AppLocale(context).email,
+                labelText: AppLocale(context).email,
                 controller: emailTextFieldController.value,
                 errorText: AppLocale(context).emailWrong,
                 showError: showError,
@@ -93,7 +93,7 @@ class _LoginViewState extends State<LoginView> {
               valueListenable: isPasswordError,
               builder: (context, showError, child) => AppTextField(
                 key: const Key("password"),
-                label: AppLocale(context).password,
+                labelText: AppLocale(context).password,
                 controller: passwordTextFieldController.value,
                 inputType: InputType.password,
                 errorText: AppLocale(context).passwordWrong,
@@ -110,27 +110,26 @@ class _LoginViewState extends State<LoginView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  SizedBox(
-                    width: 100,
-                    height: 40,
-                    child: ValueListenableBuilder<bool>(
-                      valueListenable: isLoading,
-                      builder: (context, isDisabled, child) {
-                        return AppElevatedButton(
-                          title: AppLocale(context).login,
-                          isDisabled: isDisabled,
-                          onPressed: _login,
-                        );
-                      },
-                    ),
+                  ValueListenableBuilder<bool>(
+                    valueListenable: isLoading,
+                    builder: (context, isDisabled, child) {
+                      return AppElevatedButton(
+                        title: AppLocale(context).login,
+                        width: 100,
+                        height: 40,
+                        isDisabled: isDisabled,
+                        onPressed: _login,
+                      );
+                    },
                   ),
                 ],
               ),
             ),
             ValueListenableBuilder(
               valueListenable: isLoading,
-              builder: (context, value, child) =>
-                  value ? const CircularProgressIndicator() : Container(),
+              builder: (_, value, __) => value
+                  ? const CircularProgressIndicator()
+                  : const SizedBox.shrink(),
             ),
           ],
         ),

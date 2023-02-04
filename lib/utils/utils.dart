@@ -1,3 +1,5 @@
+import 'package:bingnuos_admin_panel/constants.dart';
+import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -8,6 +10,14 @@ class Utils {
       .hasMatch(email);
 
   static bool passwordValid(password) => RegExp(r'^.{6,}$').hasMatch(password);
+
+  static bool validateGroup(String number) {
+    if (number.isEmpty || number.contains(' ')) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   static String formatNumber(int number) {
     var formatter = NumberFormat('#,###');
@@ -31,6 +41,51 @@ class Utils {
   static Future<void> openURL(String url) async {
     if (!await launchUrl(Uri.parse(url))) {
       throw Exception('Could not launch $url');
+    }
+  }
+
+  static String nameFromWeekDay(AppLocale locale, WeekDay weekDay) {
+    switch (weekDay) {
+      case WeekDay.monday:
+        return locale.monday;
+      case WeekDay.tuesday:
+        return locale.tuesday;
+      case WeekDay.wednesday:
+        return locale.wednesday;
+      case WeekDay.thursday:
+        return locale.thursday;
+      case WeekDay.friday:
+        return locale.friday;
+    }
+  }
+
+  static String arrayPathFromWeekDay(WeekDay day) {
+    switch (day) {
+      case WeekDay.monday:
+        return 'monday';
+      case WeekDay.tuesday:
+        return 'tuesday';
+      case WeekDay.wednesday:
+        return 'wednesday';
+      case WeekDay.thursday:
+        return 'thursday';
+      case WeekDay.friday:
+        return 'friday';
+    }
+  }
+
+  static weekDayFromSelectedChip(int selectedWeekday) {
+    switch (selectedWeekday) {
+      case 0:
+        return WeekDay.monday;
+      case 1:
+        return WeekDay.tuesday;
+      case 2:
+        return WeekDay.wednesday;
+      case 3:
+        return WeekDay.thursday;
+      case 4:
+        return WeekDay.friday;
     }
   }
 }

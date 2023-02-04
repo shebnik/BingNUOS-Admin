@@ -65,7 +65,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
               valueListenable: isEmailError,
               builder: (context, showError, child) => AppTextField(
                 key: const Key("email"),
-                label: AppLocale(context).email,
+                labelText: AppLocale(context).email,
                 controller: emailTextFieldController.value,
                 errorText: AppLocale(context).emailWrong,
                 showError: showError,
