@@ -37,20 +37,39 @@ class _ManageScheduleDialogState extends State<ManageScheduleDialog> {
   final nameTextFieldController = TextEditingController();
   final teacherTextFieldController = TextEditingController();
   final cabinetTextFieldController = TextEditingController();
+  final secondNameTextFieldController = TextEditingController();
+  final secondTeacherTextFieldController = TextEditingController();
+  final secondCabinetTextFieldController = TextEditingController();
 
   final isNameError = ValueNotifier(false);
   final isTeacherError = ValueNotifier(false);
   final isCabinetError = ValueNotifier(false);
+
   final isLoading = ValueNotifier(false);
+  final isDivided = ValueNotifier(false);
 
   @override
   void initState() {
     if (subject != null) {
-      nameTextFieldController.text = subject?.subject?.name ?? "";
-      teacherTextFieldController.text = subject?.subject?.teacher ?? "";
-      cabinetTextFieldController.text = subject?.subject?.cabinet ?? "";
+      updateControllers(subject!);
     }
     super.initState();
+  }
+
+  void updateControllers(Subject subject) {
+    if (subject.isDivided) {
+      nameTextFieldController.text = subject.evenSubject?.name ?? '';
+      teacherTextFieldController.text = subject.evenSubject?.teacher ?? '';
+      cabinetTextFieldController.text = subject.evenSubject?.cabinet ?? '';
+
+      secondNameTextFieldController.text = subject.oddSubject?.name ?? '';
+      secondTeacherTextFieldController.text = subject.oddSubject?.teacher ?? '';
+      secondCabinetTextFieldController.text = subject.oddSubject?.cabinet ?? '';
+    } else {
+      nameTextFieldController.text = subject.subject?.name ?? '';
+      teacherTextFieldController.text = subject.subject?.teacher ?? '';
+      cabinetTextFieldController.text = subject.subject?.cabinet ?? '';
+    }
   }
 
   Future<void> _remove() async {
@@ -62,13 +81,13 @@ class _ManageScheduleDialogState extends State<ManageScheduleDialog> {
       return;
     }
 
-    bool success = await FirestoreService.removeSchedule(
-      group: group,
-      weekDay: weekDay,
-      subjectInfo: fieldScheduleInfo,
-    );
+    // bool success = await FirestoreService.removeSchedule(
+    //   group: group,
+    //   weekDay: weekDay,
+    //   subjectInfo: fieldScheduleInfo,
+    // );
 
-    showMessageAndPop(success);
+    // showMessageAndPop(success);
     isLoading.value = false;
   }
 
@@ -81,20 +100,20 @@ class _ManageScheduleDialogState extends State<ManageScheduleDialog> {
       return;
     }
 
-    bool success = subject != null
-        ? await FirestoreService.updateSchedule(
-            fieldSubjectInfo: fieldSubjectInfo,
-            subjectInfo: subject!.subject!,
-            group: group,
-            weekDay: weekDay,
-          )
-        : await FirestoreService.addSchedule(
-            group: group,
-            weekDay: weekDay,
-            subjectInfo: fieldSubjectInfo,
-          );
+    // bool success = subject != null
+    //     ? await FirestoreService.updateSchedule(
+    //         fieldSubjectInfo: fieldSubjectInfo,
+    //         subjectInfo: subject!.subject!,
+    //         group: group,
+    //         weekDay: weekDay,
+    //       )
+    //     : await FirestoreService.addSchedule(
+    //         group: group,
+    //         weekDay: weekDay,
+    //         subjectInfo: fieldSubjectInfo,
+    //       );
 
-    showMessageAndPop(success);
+    // showMessageAndPop(success);
     isLoading.value = false;
   }
 
@@ -116,36 +135,55 @@ class _ManageScheduleDialogState extends State<ManageScheduleDialog> {
     }
   }
 
-  SubjectInfo? readFields() {
-    String name = nameTextFieldController.value.text;
-    String cabinet = cabinetTextFieldController.value.text;
-    String teacher = teacherTextFieldController.value.text;
+  Subject? readFields() {
+    final subjectInfo = SubjectInfo(
+      name: nameTextFieldController.value.text,
+      cabinet: cabinetTextFieldController.value.text,
+      teacher: teacherTextFieldController.value.text,
+    );
 
-    if (!validate(name, cabinet, teacher)) return null;
-    FocusScope.of(context).unfocus();
-    isLoading.value = true;
-
-    return SubjectInfo(
-      name: name,
-      cabinet: cabinet,
-      teacher: teacher,
+    SubjectInfo? secondSubjectInfo;
+    if (isDivided.value) {
+      secondSubjectInfo = SubjectInfo(
+        name: secondNameTextFieldController.value.text,
+        cabinet: secondCabinetTextFieldController.value.text,
+        teacher: secondTeacherTextFieldController.value.text,
+      );
+    }
+    
+    if (isDivided.value) {
+      if (!validate(subjectInfo) || !validate(secondSubjectInfo!)) {
+        return null;
+      }
+    } else {
+      if (!validate(subjectInfo)) {
+        return null;
+      }
+    }
+    
+    return Subject(
+      isDivided: isDivided.value,
+      number: number,
+      evenSubject: isDivided.value ? subjectInfo : null,
+      oddSubject: isDivided.value ? secondSubjectInfo : null,
+      subject: !isDivided.value ? subjectInfo : null,
     );
   }
 
-  bool validate(String name, String cabinet, String teacher) {
-    if (name.length < 3) {
+  bool validate(SubjectInfo subjectInfo) {
+    if (subjectInfo.name.length < 3) {
       isNameError.value = true;
       return false;
     } else {
       isNameError.value = false;
     }
-    if (cabinet.length < 3) {
+    if (subjectInfo.cabinet.length < 3) {
       isCabinetError.value = true;
       return false;
     } else {
       isCabinetError.value = false;
     }
-    if (teacher.length < 3) {
+    if (subjectInfo.teacher.length < 3) {
       isTeacherError.value = true;
       return false;
     } else {
@@ -158,8 +196,13 @@ class _ManageScheduleDialogState extends State<ManageScheduleDialog> {
   Widget build(BuildContext context) {
     final locale = AppLocale.of(context);
 
-    String subjectName = Utils.nameFromWeekDay(locale, weekDay);
-    String title = '$group $subjectName ${number + 1} ${locale.subject}';
+    String weekday = Utils.nameFromWeekDay(locale, weekDay);
+    String subjectName = subject?.subject?.name ??
+        subject?.oddSubject?.name ??
+        subject?.evenSubject?.name ??
+        "";
+    String title =
+        '$group $weekday $subjectName ${number + 1} ${locale.subject}';
 
     return Dialog(
       insetPadding: const EdgeInsets.only(top: 20, left: 15, right: 15),
@@ -190,32 +233,16 @@ class _ManageScheduleDialogState extends State<ManageScheduleDialog> {
               ),
               const SizedBox(height: 15),
               ValueListenableBuilder(
-                valueListenable: isNameError,
-                builder: (context, value, child) => AppTextField(
-                  controller: nameTextFieldController,
-                  hintText: locale.subjectHint,
-                  errorText: locale.subjectNameWrong,
-                  showError: value,
-                ),
-              ),
-              const SizedBox(height: 15),
-              ValueListenableBuilder(
-                valueListenable: isCabinetError,
-                builder: (context, value, child) => AppTextField(
-                  controller: cabinetTextFieldController,
-                  hintText: locale.cabinetNumberHint,
-                  errorText: locale.cabinetNumberWrong,
-                  showError: value,
-                ),
-              ),
-              const SizedBox(height: 15),
-              ValueListenableBuilder(
-                valueListenable: isTeacherError,
-                builder: (context, value, child) => AppTextField(
-                  controller: teacherTextFieldController,
-                  hintText: locale.teacherNameHint,
-                  errorText: locale.teacherNameWrong,
-                  showError: value,
+                valueListenable: isDivided,
+                builder: (context, value, child) => Column(
+                  children: [
+                    if (value) ...[
+                      ...subjectInfoFields("evenSubject"),
+                      ...subjectInfoFields("oddSubject"),
+                    ] else ...[
+                      ...subjectInfoFields("subject"),
+                    ],
+                  ],
                 ),
               ),
               const SizedBox(height: 15),
@@ -258,5 +285,40 @@ class _ManageScheduleDialogState extends State<ManageScheduleDialog> {
         ),
       ),
     );
+  }
+
+  List<Widget> subjectInfoFields(String subjectType) {
+    final locale = AppLocale.of(context);
+    return [
+      ValueListenableBuilder(
+        valueListenable: isNameError,
+        builder: (context, value, child) => AppTextField(
+          controller: nameTextFieldController,
+          hintText: locale.subjectHint,
+          errorText: locale.subjectNameWrong,
+          showError: value,
+        ),
+      ),
+      const SizedBox(height: 15),
+      ValueListenableBuilder(
+        valueListenable: isCabinetError,
+        builder: (context, value, child) => AppTextField(
+          controller: cabinetTextFieldController,
+          hintText: locale.cabinetNumberHint,
+          errorText: locale.cabinetNumberWrong,
+          showError: value,
+        ),
+      ),
+      const SizedBox(height: 15),
+      ValueListenableBuilder(
+        valueListenable: isTeacherError,
+        builder: (context, value, child) => AppTextField(
+          controller: teacherTextFieldController,
+          hintText: locale.teacherNameHint,
+          errorText: locale.teacherNameWrong,
+          showError: value,
+        ),
+      ),
+    ];
   }
 }
