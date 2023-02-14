@@ -1,5 +1,5 @@
 import 'package:bingnuos_admin_panel/ui/components/home/app_bar/home_app_bar.dart';
-import 'package:bingnuos_admin_panel/ui/pages/home/time_table/time_table_widget.dart';
+import 'package:bingnuos_admin_panel/ui/pages/home/time_table/time_table_loader.dart';
 import 'package:bingnuos_admin_panel/ui/pages/home/week_day_chips.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 16),
             WeekDayChips(),
             SizedBox(height: 30),
-            TimeTableWidget(),
+            TimeTableLoader(),
           ],
         ),
       ),

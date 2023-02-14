@@ -14,6 +14,7 @@ class AppTheme {
         brightness: Brightness.light,
         primaryColor: Colors.white,
         splashColor: primaryLight,
+        canvasColor: Colors.transparent,
         appBarTheme: const AppBarTheme(
           color: primaryLight,
         ),
@@ -52,9 +53,6 @@ class AppTheme {
             color: Colors.black,
           ),
         ),
-        iconTheme: const IconThemeData(
-          color: Colors.white,
-        ),
         chipTheme: const ChipThemeData(
           backgroundColor: Colors.white,
           selectedColor: primaryLight,
@@ -84,6 +82,7 @@ class AppTheme {
         appBarTheme: const AppBarTheme(
           color: primaryDark,
         ),
+        canvasColor: Colors.transparent,
         textTheme: const TextTheme(
           headlineLarge: TextStyle(
             color: Colors.white,

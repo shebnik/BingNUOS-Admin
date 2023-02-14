@@ -81,12 +81,10 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  SizedBox(
-                    height: 40,
-                    child: AppElevatedButton(
-                      title: AppLocale(context).resetPassword,
-                      onPressed: _resetPassword,
-                    ),
+                  AppElevatedButton(
+                    width: 200,
+                    title: AppLocale(context).resetPassword,
+                    onPressed: _resetPassword,
                   ),
                 ],
               ),

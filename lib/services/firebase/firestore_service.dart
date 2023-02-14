@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:bingnuos_admin_panel/constants.dart';
 import 'package:bingnuos_admin_panel/models/app_user/app_user.dart';
 import 'package:bingnuos_admin_panel/models/schedule/schedule.dart';
+import 'package:bingnuos_admin_panel/models/schedule/subject.dart';
 import 'package:bingnuos_admin_panel/models/schedule/subject_info.dart';
 import 'package:bingnuos_admin_panel/utils/logger.dart';
 import 'package:bingnuos_admin_panel/utils/utils.dart';
@@ -10,86 +11,98 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirestoreService {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Path
-  static const String _usersPath = 'users';
-  static const String _schedulesPath = 'schedules';
+  // Collections
+  static const String _usersCollectionPath = 'users';
+  static const String _schedulesCollectionPath = 'schedules';
 
-  // Roles
-  static const String _adminRole = 'admin';
-  static const String _moderatorRole = 'moderator';
+  // Fields
+  static const String _adminRoleField = 'admin';
+  static const String _moderatorRoleField = 'moderator';
+  static const String _groupField = 'group';
+  static const String _moderationGroupsField = 'moderationGroups';
 
   // Collection references
   static final CollectionReference<AppUser> _users =
-      _firestore.collection(_usersPath).withConverter(
+      _firestore.collection(_usersCollectionPath).withConverter(
             fromFirestore: (snapshot, _) =>
                 AppUser.fromMap(snapshot.data() as Map<String, dynamic>),
             toFirestore: (user, _) => user.toMap(),
           );
 
   static final CollectionReference<Schedule> _schedules =
-      _firestore.collection(_schedulesPath).withConverter(
+      _firestore.collection(_schedulesCollectionPath).withConverter(
             fromFirestore: (snapshot, _) =>
                 Schedule.fromMap(snapshot.data() as Map<String, dynamic>),
             toFirestore: (schedule, _) => schedule.toMap(),
           );
 
-  static Future<void> addUser(AppUser user) =>
-      _users.doc(user.userId).set(user);
-
-  static Future<AppUser> getUser(String id) =>
-      _users.doc(id).get().then((snapshot) => snapshot.data()!);
-
-  static Future<bool> userExists(String id) =>
-      _users.doc(id).get().then((doc) => doc.exists);
-
   Stream<DocumentSnapshot> listenUserData(String userId) {
-    return _firestore.collection(_usersPath).doc(userId).snapshots();
+    return _firestore.collection(_usersCollectionPath).doc(userId).snapshots();
   }
 
   Stream<QuerySnapshot> listenSchedules(AppUser user) {
-    if (user.role == _adminRole) {
-      return _firestore.collection(_schedulesPath).snapshots();
+    if (user.role == _adminRoleField) {
+      Logger.i('[listenSchedules] Admin');
+      return _firestore.collection(_schedulesCollectionPath).snapshots();
     }
+    if (user.moderationGroups == null || user.moderationGroups!.isEmpty) {
+      Logger.i('[listenSchedules] No moderation groups');
+      return const Stream.empty();
+    }
+    
     return _firestore
-        .collection(_schedulesPath)
-        .where('group', whereIn: user.moderationGroups)
+        .collection(_schedulesCollectionPath)
+        .where(_groupField, whereIn: user.moderationGroups)
         .snapshots();
   }
 
-  static Future<bool> deleteGroup(String group) =>
-      _schedules.doc(group).delete().then((value) => true).catchError((error) {
-        Logger.e('[deleteGroup] Error', error);
-        return false;
-      });
-
-  static Future<bool> manageGroup(String newGroupName, [String? group]) async {
-    try {
-      if (group != null) {
-        await _schedules.doc(group).delete();
-      } else {
-        await _schedules.doc(newGroupName).set(
-              Schedule(
-                group: newGroupName,
-              ),
-            );
-      }
-      return true;
-    } catch (e) {
-      Logger.e('[manageGroup] Error', e);
-      return false;
-    }
-  }
-
-  static Future<bool> setSchedule({
-    required String group,
-    required Schedule schedule,
-  }) async {
+  static Future<bool> setGroupSchedule(Schedule schedule) {
     return _schedules
-        .doc(group)
-        .set(schedule, SetOptions(merge: true))
+        .doc()
+        .set(schedule)
         .then((value) => true)
         .catchError((error) {
-      Logger.e('[setSchedule] Error', error);
+      Logger.e('[addGroup] Error', error);
+      return false;
+    });
+  }
+
+  static Future<bool> deleteScheduleGroup(String group) {
+    return _schedules
+        .where(_groupField, isEqualTo: group)
+        .limit(1)
+        .get()
+        .then((value) {
+      if (value.docs.isNotEmpty) {
+        return value.docs.first.reference.delete().then((value) => true);
+      } else {
+        Logger.d('[deleteScheduleGroup] Group: $group not found');
+        return Future.value(false);
+      }
+    }).catchError((error) {
+      Logger.e('[deleteScheduleGroup] Error', error);
+      return false;
+    });
+  }
+
+  static Future<bool> renameScheduleGroup({
+    required String group,
+    required String newGroupName,
+  }) {
+    return _schedules
+        .where(_groupField, isEqualTo: group)
+        .limit(1)
+        .get()
+        .then((value) {
+      if (value.docs.isNotEmpty) {
+        return value.docs.first.reference
+            .update({_groupField: newGroupName}).then((value) => true);
+      } else {
+        Logger.d('[renameGroup] Group: $group not found');
+        return Future.value(false);
+      }
+    }).catchError((error) {
+      Logger.e('[renameGroup] Error', error);
       return false;
     });
   }
@@ -97,78 +110,116 @@ class FirestoreService {
   static Future<bool> addSchedule({
     required String group,
     required WeekDay weekDay,
-    required SubjectInfo subjectInfo,
-  }) async {
+    required Subject subject,
+  }) {
     final arrayPath = Utils.arrayPathFromWeekDay(weekDay);
     return _schedules
-        .doc(group)
-        .update({
-          arrayPath: FieldValue.arrayUnion([subjectInfo.toJson()])
-        })
-        .then((value) => true)
-        .catchError((error) {
-          Logger.e('[addSchedule] Error', error);
-          return false;
-        });
+        .where(_groupField, isEqualTo: group)
+        .limit(1)
+        .get()
+        .then((value) {
+      if (value.docs.isNotEmpty) {
+        return value.docs.first.reference.update({
+          arrayPath: FieldValue.arrayUnion([subject.toMap()])
+        }).then((value) => true);
+      } else {
+        Logger.d('[addSchedule] Group: $group not found');
+        return Future.value(false);
+      }
+    }).catchError((error) {
+      Logger.e('[addSchedule] Error', error);
+      return false;
+    });
   }
 
   static Future<bool> removeSchedule({
     required String group,
     required WeekDay weekDay,
-    required SubjectInfo subjectInfo,
-  }) async {
+    required Subject subject,
+  }) {
     final arrayPath = Utils.arrayPathFromWeekDay(weekDay);
     return _schedules
-        .doc(group)
-        .update({
-          arrayPath: FieldValue.arrayRemove([subjectInfo.toJson()])
-        })
-        .then((value) => true)
-        .catchError((error) {
-          Logger.e('[removeSchedule] Error', error);
-          return false;
-        });
+        .where(_groupField, isEqualTo: group)
+        .limit(1)
+        .get()
+        .then((value) {
+      if (value.docs.isNotEmpty) {
+        return value.docs.first.reference.update({
+          arrayPath: FieldValue.arrayRemove([subject.toMap()])
+        }).then((value) => true);
+      } else {
+        Logger.d('[removeSchedule] Group: $group not found');
+        return Future.value(false);
+      }
+    }).catchError((error) {
+      Logger.e('[removeSchedule] Error', error);
+      return false;
+    });
   }
 
   static Future<bool> updateSchedule({
     required String group,
     required WeekDay weekDay,
-    required SubjectInfo subjectInfo,
-    required SubjectInfo fieldSubjectInfo,
-  }) async {
-    // try {
-    //   final arrayPath = Utils.arrayPathFromWeekDay(day);
-
-    //   if (await _service.arrayRemove(
-    //     path: FirestorePath.scheduleDoc(group),
-    //     data: scheduleInfo.toJson(),
-    //     arrayPath: arrayPath,
-    //   )) {
-    //     if (await _service.arrayUnion(
-    //       path: FirestorePath.scheduleDoc(group),
-    //       data: fieldScheduleInfo.toJson(),
-    //       arrayPath: arrayPath,
-    //     )) {
-    //       return true;
-    //     }
-    //     return false;
-    //   }
-    //   return false;
-    // } catch (e) {
-    //   Logger.e('updateSchedule error: ', e);
-    //   return false;
-    // }
-
+    required Subject subject,
+    required Subject fieldSubject,
+  }) {
     final arrayPath = Utils.arrayPathFromWeekDay(weekDay);
     return _schedules
-        .doc(group)
+        .where(_groupField, isEqualTo: group)
+        .limit(1)
+        .get()
+        .then((value) {
+      if (value.docs.isNotEmpty) {
+        return value.docs.first.reference
+            .update({
+              arrayPath: FieldValue.arrayRemove([subject.toMap()]),
+            })
+            .then((_) => _schedules
+                .doc(group)
+                .update({
+                  arrayPath: FieldValue.arrayUnion([fieldSubject.toMap()])
+                })
+                .then((__) => true)
+                .catchError((error) {
+                  Logger.e('[updateSchedule] arrayUnion Error', error);
+                  return false;
+                }))
+            .catchError((error) {
+              Logger.e('[updateSchedule] arrayRemove Error', error);
+              return false;
+            });
+      } else {
+        Logger.d('[updateSchedule] Group: $group not found');
+        return Future.value(false);
+      }
+    }).catchError((error) {
+      Logger.e('[updateSchedule] Error', error);
+      return false;
+    });
+  }
+
+  static Future<bool> addUserModerationGroup(String userId, String group) {
+    return _users
+        .doc(userId)
         .update({
-          arrayPath: FieldValue.arrayRemove([subjectInfo.toJson()]),
-          arrayPath: FieldValue.arrayUnion([fieldSubjectInfo.toJson()])
+          _moderationGroupsField: FieldValue.arrayUnion([group])
         })
         .then((value) => true)
         .catchError((error) {
-          Logger.e('[updateSchedule] Error', error);
+          Logger.e('[addUserModerationGroup] Error', error);
+          return false;
+        });
+  }
+
+  static Future<bool> removeUserModerationGroup(String userId, String group) {
+    return _users
+        .doc(userId)
+        .update({
+          _moderationGroupsField: FieldValue.arrayRemove([group])
+        })
+        .then((value) => true)
+        .catchError((error) {
+          Logger.e('[removeUserModerationGroup] Error', error);
           return false;
         });
   }

@@ -4,6 +4,7 @@ import 'package:bingnuos_admin_panel/services/firebase/firestore_service.dart';
 import 'package:bingnuos_admin_panel/services/hive_service.dart';
 import 'package:bingnuos_admin_panel/ui/pages/home/home_page.dart';
 import 'package:bingnuos_admin_panel/ui/pages/home/time_table/time_table_widget.dart';
+import 'package:bingnuos_admin_panel/utils/logger.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +39,7 @@ class _LoggedInViewState extends State<LoggedInView> {
         }
         final data = snapshot.data!.data() as Map<String, dynamic>?;
         if (data == null) {
+          Logger.e('[listenUserData] User data is null');
           return const Center(child: CircularProgressIndicator());
         }
 

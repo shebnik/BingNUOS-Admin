@@ -8,7 +8,6 @@ class AppLocale {
 
   AppLocale(this.context) : locale = AppLocalizations.of(context);
 
-
   static AppLocale of(BuildContext context) {
     return AppLocale(context);
   }
@@ -19,8 +18,14 @@ class AppLocale {
   // Base
   String get language => locale?.language ?? 'Language';
   String get ok => locale?.ok ?? 'OK';
+  String get yes => locale?.yes ?? 'Yes';
+  String get no => locale?.no ?? 'No';
   String get add => locale?.add ?? 'Add';
+  String get update => locale?.update ?? 'Update';
   String get more => locale?.more ?? 'More';
+  String get group => locale?.group ?? 'Group';
+  String get on => locale?.on ?? 'on';
+  String get number => locale?.number ?? 'number';
   String get pageNotFound => locale?.pageNotFound ?? 'Page not found';
   String get done => locale?.done ?? 'Done';
   String get cancel => locale?.cancel ?? 'Cancel';
@@ -50,6 +55,9 @@ class AppLocale {
   String get passwordWrong => locale?.passwordWrong ?? 'Password is wrong';
   String get resetPassword => locale?.resetPassword ?? 'Reset Password';
 
+  // AppBar
+  String get searchGroups => locale?.searchGroups ?? 'Search groups';
+
   // Theme
   String get lightTheme => locale?.lightTheme ?? 'Light Theme';
   String get darkTheme => locale?.darkTheme ?? 'Dark Theme';
@@ -72,6 +80,8 @@ class AppLocale {
   String get wednesdayShort => locale?.wednesdayShort ?? 'Wed';
   String get thursdayShort => locale?.thursdayShort ?? 'Thu';
   String get fridayShort => locale?.fridayShort ?? 'Fri';
+
+  String get noSchedules => locale?.noSchedules ?? 'No schedules';
 
   // Tutorial
   String get tutorial1 =>
@@ -99,9 +109,20 @@ class AppLocale {
   String get groupNumberWrong =>
       locale?.groupNumberWrong ?? 'Group number is wrong';
 
+  String removeGroupConfirmationDescription(String group) {
+    String desc1 = locale?.youAreRemovingGroup ?? "You're removing the group";
+    String desc2 =
+        locale?.thisActionCannotBeUndone ?? "This action cannot be undone.";
+    return "$desc1: $group.\n\n$desc2";
+  }
+
   // ManageSubjectDialog
-  String get manageSchedule => locale?.manageSchedule ?? 'Manage schedule';
+  String get addSubject => locale?.addSubject ?? 'Add subject';
+  String get editSubject => locale?.editSubject ?? 'Edit subject';
+  String get isDivided => locale?.isDivided ?? 'is divided';
   String get subject => locale?.subject ?? 'subject';
+  String get evenWeek => locale?.evenWeek ?? 'Even Week';
+  String get oddWeek => locale?.oddWeek ?? 'Odd Week';
 
   String get subjectHint => locale?.subjectHint ?? 'Enter subject name';
   String get cabinetNumberHint =>

@@ -9,7 +9,10 @@ class LanguageSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
-      icon: const Icon(Icons.language),
+      icon: const Icon(
+        Icons.language,
+        color: Colors.white,
+      ),
       iconSize: 24,
       splashRadius: 20,
       onSelected: (value) => context.read<HiveService>().saveLanguage(value),

@@ -1,4 +1,5 @@
 import 'package:bingnuos_admin_panel/providers/app_theme_provider.dart';
+import 'package:bingnuos_admin_panel/providers/search_groups_provider.dart';
 import 'package:bingnuos_admin_panel/providers/weekday_provider.dart';
 import 'package:bingnuos_admin_panel/services/app_router.dart';
 import 'package:bingnuos_admin_panel/services/firebase/auth_service.dart';
@@ -26,15 +27,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // if (kDebugMode) {
-  //   try {
-  //     FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-  //     await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-  //   } catch (e) {
-  //     Logger.e("Firebase emulator Error", e);
-  //   }
-  // }
-
   await HiveService.initialize();
 
   runApp(
@@ -51,7 +43,10 @@ void main() async {
         ),
         Provider(
           create: (_) => HiveService(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (_) => GroupSearchProvider(),
+        ),
       ],
       child: const MyApp(),
     ),

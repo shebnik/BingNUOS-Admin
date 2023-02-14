@@ -1,8 +1,7 @@
-import 'package:bingnuos_admin_panel/services/firebase/firestore_service.dart';
-import 'package:bingnuos_admin_panel/services/snackbar_service.dart';
 import 'package:bingnuos_admin_panel/ui/components/app_text_field.dart';
 import 'package:bingnuos_admin_panel/ui/components/buttons/app_elevated_button.dart';
 import 'package:bingnuos_admin_panel/ui/components/buttons/app_text_button.dart';
+import 'package:bingnuos_admin_panel/ui/dialogs/manage_group/manage_group_controller.dart';
 import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 import 'package:bingnuos_admin_panel/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -20,52 +19,21 @@ class ManageGroupDialog extends StatefulWidget {
 }
 
 class _ManageGroupDialogState extends State<ManageGroupDialog> {
-  TextEditingController groupFieldController = TextEditingController();
-  ValueNotifier isGroupNumberError = ValueNotifier(false);
-  ValueNotifier isLoading = ValueNotifier(false);
-  String? group;
+  late ManageGroupController _controller;
 
   @override
   void initState() {
-    group = widget.group;
-    if (group != null) groupFieldController.text = group!;
+    _controller = ManageGroupController(group: widget.group);
     super.initState();
-  }
-
-  Future<void> manage() async {
-    isGroupNumberError.value = false;
-    String newGroupName = groupFieldController.value.text;
-
-    if (!Utils.validateGroup(newGroupName)) {
-      isGroupNumberError.value = true;
-      return;
-    }
-    FocusScope.of(context).unfocus();
-
-    isLoading.value = true;
-    final appLocale = AppLocale.of(context);
-    bool success = await FirestoreService.manageGroup(newGroupName, group);
-    String message;
-
-    if (success) {
-      message = appLocale.success;
-      if (mounted) {
-        Navigator.pop(context);
-      }
-    } else {
-      message = appLocale.somethingWentWrong;
-    }
-
-    if (mounted) {
-      SnackBarService(context).show(message);
-    }
-
-    isLoading.value = false;
-  }
-
+  } 
+  
   @override
   Widget build(BuildContext context) {
     AppLocale appLocale = AppLocale.of(context);
+    _controller.context = context;
+    _controller.appLocale = appLocale;
+    _controller.mounted = mounted;
+    var isLandscape = Utils.isLandscape(context);
     return Dialog(
       insetPadding: const EdgeInsets.only(top: 20, left: 15, right: 15),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
@@ -73,7 +41,9 @@ class _ManageGroupDialogState extends State<ManageGroupDialog> {
       child: Container(
         padding:
             const EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 20),
-        width: 400,
+        width: isLandscape
+            ? MediaQuery.of(context).size.width * 0.5
+            : MediaQuery.of(context).size.width * 0.8,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
@@ -89,36 +59,53 @@ class _ManageGroupDialogState extends State<ManageGroupDialog> {
               ),
               const SizedBox(height: 15),
               ValueListenableBuilder(
-                valueListenable: isGroupNumberError,
+                valueListenable: _controller.isGroupNumberError,
                 builder: (context, showError, child) => AppTextField(
-                  controller: groupFieldController,
+                  controller: _controller.groupFieldController,
                   hintText: appLocale.groupNumberHint,
                   errorText: appLocale.groupNumberWrong,
                   showError: showError,
                 ),
               ),
               const SizedBox(height: 14),
-              Container(
-                margin: const EdgeInsets.only(top: 24),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Wrap(
+                  spacing: 10,
                   children: [
                     ValueListenableBuilder(
-                      valueListenable: isLoading,
+                      valueListenable: _controller.isLoading,
                       builder: (context, isDisabled, _) => AppTextButton(
-                        width: 80,
+                        width: 60,
                         title: appLocale.cancel,
                         isDisabled: isDisabled,
                         onPressed: () => Navigator.pop(context),
                       ),
                     ),
-                    const SizedBox(width: 20),
+                    if (_controller.group != null) ...[
+                      ValueListenableBuilder(
+                        valueListenable: _controller.isLoading,
+                        builder: (context, value, child) => AppElevatedButton(
+                          width: 100,
+                          title: appLocale.remove,
+                          icon: MediaQuery.of(context).size.width < 550
+                              ? null
+                              : Icons.delete_outline,
+                          isDisabled: value,
+                          onPressed: _controller.remove,
+                        ),
+                      ),
+                    ],
                     ValueListenableBuilder(
-                      valueListenable: isLoading,
+                      valueListenable: _controller.isLoading,
                       builder: (context, isDisabled, _) => AppElevatedButton(
+                        width: 100,
                         title: appLocale.done,
+                        icon: MediaQuery.of(context).size.width < 550
+                            ? null
+                            : Icons.check_outlined,
                         isDisabled: isDisabled,
-                        onPressed: manage,
+                        onPressed: _controller.manage,
                       ),
                     ),
                   ],

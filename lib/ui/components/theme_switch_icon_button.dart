@@ -28,7 +28,7 @@ class ThemeSwitchIconButton extends StatelessWidget {
                 : currentTheme == ThemeMode.dark
                     ? darkIcon
                     : autoIcon,
-            color: Theme.of(context).iconTheme.color,
+            color: Colors.white,
           ),
           onPressed: () {
             themeProvider.toggleTheme();

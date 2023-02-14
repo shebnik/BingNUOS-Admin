@@ -16,9 +16,11 @@ class Subject {
     this.evenSubject,
     this.oddSubject,
     this.subject,
-  }) : assert(isDivided
-            ? evenSubject != null && oddSubject != null
-            : subject != null);
+  }) : assert(
+            isDivided
+                ? evenSubject != null && oddSubject != null
+                : subject != null,
+            number != 0);
 
   Subject copyWith({
     bool? isDivided,

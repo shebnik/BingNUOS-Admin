@@ -1,6 +1,8 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
+
 import 'package:bingnuos_admin_panel/providers/app_theme_provider.dart';
 import 'package:bingnuos_admin_panel/ui/theme/app_theme.dart';
-import 'package:flutter/material.dart';
 
 class AppElevatedButton extends StatelessWidget {
   const AppElevatedButton({
@@ -11,6 +13,7 @@ class AppElevatedButton extends StatelessWidget {
     this.color = AppTheme.primaryLight,
     this.width = 120,
     this.height = 40,
+    this.icon,
   }) : super(key: key);
 
   final String title;
@@ -20,11 +23,18 @@ class AppElevatedButton extends StatelessWidget {
   final Color color;
   final double width;
   final double height;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
+    final text = Text(
+      title,
+      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+            color: Colors.white,
+          ),
+    );
     return SizedBox(
-      width: width,
+      width: icon != null ? width + 35 : width,
       height: height,
       child: ElevatedButton(
         onPressed: isDisabled ? null : onPressed,
@@ -33,12 +43,22 @@ class AppElevatedButton extends StatelessWidget {
               ? MaterialStateProperty.all(Colors.grey)
               : MaterialStateProperty.all(color),
         ),
-        child: Text(
-          title,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: Colors.white,
-              ),
-        ),
+        child: icon != null
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    icon,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  text,
+                ],
+              )
+            : text,
       ),
     );
   }

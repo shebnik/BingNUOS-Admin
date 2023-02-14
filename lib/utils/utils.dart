@@ -1,10 +1,19 @@
 import 'package:bingnuos_admin_panel/constants.dart';
+import 'package:bingnuos_admin_panel/services/snackbar_service.dart';
 import 'package:bingnuos_admin_panel/utils/app_locale.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
+  static bool isLandscape(BuildContext context) {
+    var isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    var width = MediaQuery.of(context).size.width;
+    return width > 800;
+  }
+
   static bool emailValid(email) => RegExp(
           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
       .hasMatch(email);

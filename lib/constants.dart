@@ -8,6 +8,9 @@ const String loginLoc = '/login';
 const String resetPasswordLoc = '/reset-password';
 const String rootLoc = '/';
 
+const String admin = 'admin';
+const String moderator = 'moderator';
+
 const List<String> subjectTimes = [
   '09:00-10:20',
   '10:30-11:50',
@@ -23,4 +26,16 @@ enum WeekDay {
   wednesday,
   thursday,
   friday,
+}
+
+enum SubjectType {
+  subject,
+  evenSubject,
+  oddSubject,
+}
+
+enum SubjectControllerType {
+  name,
+  teacher,
+  cabinet,
 }

@@ -12,7 +12,7 @@ class AppTextButton extends StatelessWidget {
     required this.title,
     this.onPressed,
     this.isDisabled = false,
-    this.width = 120,
+    this.width = 60,
     this.height = 40,
   }) : super(key: key);
 
