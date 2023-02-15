@@ -1,12 +1,13 @@
 import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:bingnuos_admin_panel/constants.dart';
 import 'package:bingnuos_admin_panel/models/app_user/app_user.dart';
 import 'package:bingnuos_admin_panel/models/schedule/schedule.dart';
 import 'package:bingnuos_admin_panel/models/schedule/subject.dart';
-import 'package:bingnuos_admin_panel/models/schedule/subject_info.dart';
 import 'package:bingnuos_admin_panel/utils/logger.dart';
 import 'package:bingnuos_admin_panel/utils/utils.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreService {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -17,7 +18,7 @@ class FirestoreService {
 
   // Fields
   static const String _adminRoleField = 'admin';
-  static const String _moderatorRoleField = 'moderator';
+  // static const String _moderatorRoleField = 'moderator';
   static const String _groupField = 'group';
   static const String _moderationGroupsField = 'moderationGroups';
 
@@ -49,7 +50,7 @@ class FirestoreService {
       Logger.i('[listenSchedules] No moderation groups');
       return const Stream.empty();
     }
-    
+
     return _firestore
         .collection(_schedulesCollectionPath)
         .where(_groupField, whereIn: user.moderationGroups)

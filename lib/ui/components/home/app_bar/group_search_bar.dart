@@ -1,7 +1,6 @@
-import 'package:bingnuos_admin_panel/providers/app_theme_provider.dart';
 import 'package:bingnuos_admin_panel/providers/search_groups_provider.dart';
-import 'package:bingnuos_admin_panel/ui/theme/app_theme.dart';
 import 'package:bingnuos_admin_panel/utils/app_locale.dart';
+import 'package:bingnuos_admin_panel/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,10 +29,19 @@ class _GroupSearchBarState extends State<GroupSearchBar> {
     super.initState();
   }
 
+  void _clear() {
+    _controller.clear();
+    context.read<GroupSearchProvider>().searchValue = "";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      padding: EdgeInsets.only(
+        top: 8,
+        bottom: 8,
+        left: Utils.isLandscape(context) ? 16 : 0,
+      ),
       child: TextField(
         controller: _controller,
         onChanged: (value) {
@@ -48,15 +56,12 @@ class _GroupSearchBarState extends State<GroupSearchBar> {
             valueListenable: _showClearButton,
             builder: (context, value, child) {
               return value
-                  ? MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: GestureDetector(
-                        onTap: () {
-                          _controller.clear();
-                          context.read<GroupSearchProvider>().searchValue = "";
-                        },
-                        child: const Icon(Icons.clear),
-                      ),
+                  ? IconButton(
+                      splashRadius: 20,
+                      padding: EdgeInsets.zero,
+                      visualDensity: VisualDensity.compact,
+                      icon: const Icon(Icons.clear),
+                      onPressed: _clear,
                     )
                   : const SizedBox();
             },

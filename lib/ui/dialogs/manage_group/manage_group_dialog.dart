@@ -1,10 +1,11 @@
+import 'package:flutter/material.dart';
+
 import 'package:bingnuos_admin_panel/ui/components/app_text_field.dart';
 import 'package:bingnuos_admin_panel/ui/components/buttons/app_elevated_button.dart';
 import 'package:bingnuos_admin_panel/ui/components/buttons/app_text_button.dart';
 import 'package:bingnuos_admin_panel/ui/dialogs/manage_group/manage_group_controller.dart';
 import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 import 'package:bingnuos_admin_panel/utils/utils.dart';
-import 'package:flutter/material.dart';
 
 class ManageGroupDialog extends StatefulWidget {
   const ManageGroupDialog({
@@ -25,8 +26,8 @@ class _ManageGroupDialogState extends State<ManageGroupDialog> {
   void initState() {
     _controller = ManageGroupController(group: widget.group);
     super.initState();
-  } 
-  
+  }
+
   @override
   Widget build(BuildContext context) {
     AppLocale appLocale = AppLocale.of(context);

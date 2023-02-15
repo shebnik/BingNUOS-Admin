@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
 import 'package:bingnuos_admin_panel/constants.dart';
 import 'package:bingnuos_admin_panel/services/firebase/auth_service.dart';
 import 'package:bingnuos_admin_panel/services/snackbar_service.dart';
@@ -5,12 +9,8 @@ import 'package:bingnuos_admin_panel/ui/components/app_text_field.dart';
 import 'package:bingnuos_admin_panel/ui/components/bing_nuos_auth/bing_nuos_auth_widget.dart';
 import 'package:bingnuos_admin_panel/ui/components/bing_nuos_auth/forgot_password_login_widget.dart';
 import 'package:bingnuos_admin_panel/ui/components/buttons/app_elevated_button.dart';
-import 'package:bingnuos_admin_panel/ui/theme/app_theme.dart';
 import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 import 'package:bingnuos_admin_panel/utils/utils.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -50,8 +50,10 @@ class _LoginViewState extends State<LoginView> {
 
       bool success = result.keys.first;
       String e = result.values.first;
-      if(!success && mounted) {
-        SnackBarService(context).show(context.read<AuthService>().getFirebaseAuthErrorMessage(e, context));
+      if (!success && mounted) {
+        SnackBarService(context).show(context
+            .read<AuthService>()
+            .getFirebaseAuthErrorMessage(e, context));
       }
     }
     isLoading.value = false;

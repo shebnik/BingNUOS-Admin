@@ -1,7 +1,8 @@
-import 'package:bingnuos_admin_panel/services/hive_service.dart';
-import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:bingnuos_admin_panel/services/hive_service.dart';
+import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 
 class LanguageSelector extends StatelessWidget {
   const LanguageSelector({super.key});

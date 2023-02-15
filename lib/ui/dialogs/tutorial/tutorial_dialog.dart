@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
+
 import 'package:bingnuos_admin_panel/ui/components/buttons/app_elevated_button.dart';
 import 'package:bingnuos_admin_panel/ui/theme/app_theme.dart';
 import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 import 'package:bingnuos_admin_panel/utils/utils.dart';
-import 'package:flutter/material.dart';
 
 class InstructionDialog extends StatelessWidget {
   const InstructionDialog({

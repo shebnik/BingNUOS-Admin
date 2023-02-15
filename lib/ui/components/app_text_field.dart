@@ -1,6 +1,7 @@
-import 'package:bingnuos_admin_panel/utils/utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
+import 'package:bingnuos_admin_panel/utils/utils.dart';
 
 enum InputType {
   password,

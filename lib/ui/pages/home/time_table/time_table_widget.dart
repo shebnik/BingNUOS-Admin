@@ -1,5 +1,9 @@
 import 'dart:math';
 
+import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:bingnuos_admin_panel/constants.dart';
 import 'package:bingnuos_admin_panel/models/schedule/schedule.dart';
 import 'package:bingnuos_admin_panel/models/schedule/subject.dart';
@@ -12,10 +16,6 @@ import 'package:bingnuos_admin_panel/ui/pages/home/time_table/times_column.dart'
 import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 import 'package:bingnuos_admin_panel/utils/logger.dart';
 import 'package:bingnuos_admin_panel/utils/utils.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter/foundation.dart';
-import 'package:collection/collection.dart';
 
 class TimeTableWidget extends StatefulWidget {
   const TimeTableWidget({

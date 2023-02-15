@@ -1,10 +1,4 @@
-import 'package:bingnuos_admin_panel/providers/app_theme_provider.dart';
-import 'package:bingnuos_admin_panel/providers/search_groups_provider.dart';
-import 'package:bingnuos_admin_panel/providers/weekday_provider.dart';
-import 'package:bingnuos_admin_panel/services/app_router.dart';
-import 'package:bingnuos_admin_panel/services/firebase/auth_service.dart';
-import 'package:bingnuos_admin_panel/services/hive_service.dart';
-import 'package:bingnuos_admin_panel/utils/app_locale.dart';
+import 'package:bingnuos_admin_panel/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -12,10 +6,18 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:bingnuos_admin_panel/utils/stream_extensions.dart';
+import 'package:flutter_web_plugins/url_strategy.dart' show usePathUrlStrategy;
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_web_plugins/url_strategy.dart' show usePathUrlStrategy;
+
+import 'package:bingnuos_admin_panel/providers/app_theme_provider.dart';
+import 'package:bingnuos_admin_panel/providers/search_groups_provider.dart';
+import 'package:bingnuos_admin_panel/providers/weekday_provider.dart';
+import 'package:bingnuos_admin_panel/services/app_router.dart';
+import 'package:bingnuos_admin_panel/services/firebase/auth_service.dart';
+import 'package:bingnuos_admin_panel/services/hive_service.dart';
+import 'package:bingnuos_admin_panel/utils/app_locale.dart';
+import 'package:bingnuos_admin_panel/utils/stream_extensions.dart';
 
 import 'firebase_options.dart';
 
@@ -82,7 +84,7 @@ class _MyAppState extends State<MyApp> {
           valueListenable:
               Provider.of<HiveService>(context).languageBoxListenable,
           builder: (context, box, child) {
-            final locale = box.get(HiveService.LANGUAGE_BOX_KEY) ?? 'en';
+            final locale = box.get(LANGUAGE_BOX_KEY) ?? 'en';
             return MaterialApp.router(
               locale: Locale.fromSubtags(languageCode: locale),
               theme: themeProvider.selectedTheme,

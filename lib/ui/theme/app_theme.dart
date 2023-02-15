@@ -1,5 +1,6 @@
-import 'package:bingnuos_admin_panel/providers/app_theme_provider.dart';
 import 'package:flutter/material.dart';
+
+import 'package:bingnuos_admin_panel/providers/app_theme_provider.dart';
 
 class AppTheme {
   static const primaryLight = Color(0xFF3E5694);

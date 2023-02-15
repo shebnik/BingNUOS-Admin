@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'package:bingnuos_admin_panel/constants.dart';
 import 'package:bingnuos_admin_panel/models/schedule/subject.dart';
 import 'package:bingnuos_admin_panel/ui/components/app_text_field.dart';
@@ -6,8 +8,6 @@ import 'package:bingnuos_admin_panel/ui/components/buttons/app_text_button.dart'
 import 'package:bingnuos_admin_panel/ui/components/home/schedule_line_delimeter.dart';
 import 'package:bingnuos_admin_panel/ui/dialogs/manage_subject/manage_subject_dialog_controller.dart';
 import 'package:bingnuos_admin_panel/utils/app_locale.dart';
-import 'package:bingnuos_admin_panel/utils/utils.dart';
-import 'package:flutter/material.dart';
 
 class ManageSubjectDialog extends StatefulWidget {
   final int number;

@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
+
 import 'package:bingnuos_admin_panel/ui/theme/app_theme.dart';
 import 'package:bingnuos_admin_panel/utils/app_locale.dart';
-import 'package:flutter/material.dart';
 
 class SnackBarService {
   final BuildContext context;

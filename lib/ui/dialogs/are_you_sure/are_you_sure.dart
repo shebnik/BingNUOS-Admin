@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
+
 import 'package:bingnuos_admin_panel/ui/components/buttons/app_elevated_button.dart';
 import 'package:bingnuos_admin_panel/ui/components/buttons/app_text_button.dart';
 import 'package:bingnuos_admin_panel/utils/app_locale.dart';
-import 'package:flutter/material.dart';
 
 class AreYouSure extends StatelessWidget {
   final String description;

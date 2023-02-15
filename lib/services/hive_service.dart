@@ -1,15 +1,13 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:bingnuos_admin_panel/models/app_user/app_user.dart';
-import 'package:bingnuos_admin_panel/utils/logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'package:bingnuos_admin_panel/constants.dart';
+import 'package:bingnuos_admin_panel/models/app_user/app_user.dart';
+import 'package:bingnuos_admin_panel/utils/logger.dart';
+
 class HiveService {
-  static const USER_BOX_KEY = 'USER_BOX';
-  static const LANGUAGE_BOX_KEY = 'LANGUAGE_BOX';
-  static const USER_KEY = 'USER';
-  static const LANGUAGE_KEY = 'LANGUAGE';
 
   static Future<void> initialize() async {
     await Hive.initFlutter();

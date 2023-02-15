@@ -1,13 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:bingnuos_admin_panel/constants.dart';
 import 'package:bingnuos_admin_panel/ui/pages/auth/login_view.dart';
 import 'package:bingnuos_admin_panel/ui/pages/auth/reset_password_view.dart';
 import 'package:bingnuos_admin_panel/ui/pages/error_page.dart';
 import 'package:bingnuos_admin_panel/ui/pages/home/logged_in_view.dart';
 import 'package:bingnuos_admin_panel/utils/logger.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class AppRouter {
   final ValueListenable<User?> firebaseUser;

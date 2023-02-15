@@ -1,5 +1,6 @@
-import 'package:bingnuos_admin_panel/ui/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+
+import 'package:bingnuos_admin_panel/ui/theme/app_theme.dart';
 
 class AppThemeProvider with ChangeNotifier, WidgetsBindingObserver {
   late ThemeData _currentTheme;

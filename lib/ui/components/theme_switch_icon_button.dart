@@ -1,7 +1,8 @@
-import 'package:bingnuos_admin_panel/providers/app_theme_provider.dart';
-import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:bingnuos_admin_panel/providers/app_theme_provider.dart';
+import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 
 class ThemeSwitchIconButton extends StatelessWidget {
   const ThemeSwitchIconButton({Key? key}) : super(key: key);

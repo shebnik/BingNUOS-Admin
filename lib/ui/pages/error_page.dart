@@ -1,5 +1,6 @@
-import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 import 'package:flutter/material.dart';
+
+import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 
 class ErrorPage extends StatelessWidget {
   const ErrorPage({Key? key, this.error}) : super(key: key);

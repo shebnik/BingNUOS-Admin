@@ -1,3 +1,11 @@
+// ignore_for_file: constant_identifier_names
+
+// HIVE KEYS
+const USER_BOX_KEY = 'USER_BOX';
+const LANGUAGE_BOX_KEY = 'LANGUAGE_BOX';
+const USER_KEY = 'USER';
+const LANGUAGE_KEY = 'LANGUAGE';
+
 const String notesURL =
     'https://docs.google.com/spreadsheets/d/1osOdvIZVKnSLiu54o9HFEyu5s_b5RFe3cblzhliRHHI';
 

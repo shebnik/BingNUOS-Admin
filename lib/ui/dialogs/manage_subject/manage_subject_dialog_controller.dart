@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'package:bingnuos_admin_panel/constants.dart';
 import 'package:bingnuos_admin_panel/models/schedule/subject.dart';
 import 'package:bingnuos_admin_panel/models/schedule/subject_info.dart';
@@ -5,7 +7,6 @@ import 'package:bingnuos_admin_panel/services/firebase/firestore_service.dart';
 import 'package:bingnuos_admin_panel/services/snackbar_service.dart';
 import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 import 'package:bingnuos_admin_panel/utils/utils.dart';
-import 'package:flutter/material.dart';
 
 class ManageSubjectDialogController {
   final int number;
