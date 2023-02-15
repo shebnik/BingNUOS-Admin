@@ -20,5 +20,8 @@ Login Page
 Timetable
 ![timetable](https://user-images.githubusercontent.com/52208650/219059280-89b1a54b-82da-4afa-94df-3c31a0d76b36.png)
 
+Manage Schedule
+![image](https://user-images.githubusercontent.com/52208650/219060905-b5e64d0d-44bb-4649-a04e-cffcd48fb0be.png)
+
 Tutorial
 ![image](https://user-images.githubusercontent.com/52208650/219059511-99a5ac74-58cf-46ad-8d06-2295672e891c.png)
