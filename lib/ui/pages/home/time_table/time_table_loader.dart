@@ -55,6 +55,7 @@ class _TimeTableLoaderState extends State<TimeTableLoader> {
                   .toList();
               Logger.i('Schedules received: ${_schedules.length}.');
             }
+            _schedules.sort((a, b) => a.group.compareTo(b.group));
             return TimeTableWidget(
               schedules: _schedules,
             );
