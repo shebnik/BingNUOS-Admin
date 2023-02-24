@@ -77,7 +77,7 @@ class _ManageGroupDialogState extends State<ManageGroupDialog> {
                     ValueListenableBuilder(
                       valueListenable: _controller.isLoading,
                       builder: (context, isDisabled, _) => AppTextButton(
-                        width: 60,
+                        width: 90,
                         title: appLocale.cancel,
                         isDisabled: isDisabled,
                         onPressed: () => Navigator.pop(context),
@@ -87,7 +87,7 @@ class _ManageGroupDialogState extends State<ManageGroupDialog> {
                       ValueListenableBuilder(
                         valueListenable: _controller.isLoading,
                         builder: (context, value, child) => AppElevatedButton(
-                          width: 100,
+                          width: 120,
                           title: appLocale.remove,
                           icon: MediaQuery.of(context).size.width < 550
                               ? null

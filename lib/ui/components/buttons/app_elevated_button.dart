@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
 import 'package:bingnuos_admin_panel/ui/theme/app_theme.dart';
+import 'package:flutter/material.dart';
 
 class AppElevatedButton extends StatelessWidget {
   const AppElevatedButton({
@@ -9,7 +8,7 @@ class AppElevatedButton extends StatelessWidget {
     required this.onPressed,
     this.isDisabled = false,
     this.color = AppTheme.primaryLight,
-    this.width = 120,
+    this.width = 140,
     this.height = 40,
     this.icon,
   }) : super(key: key);

@@ -112,8 +112,8 @@ class FirestoreService {
     required String group,
     required WeekDay weekDay,
     required Subject subject,
-  }) {
-    final arrayPath = Utils.arrayPathFromWeekDay(weekDay);
+  }) async {
+    String arrayPath = Utils.arrayPathFromWeekDay(weekDay);
     return _schedules
         .where(_groupField, isEqualTo: group)
         .limit(1)
@@ -165,36 +165,33 @@ class FirestoreService {
     required Subject fieldSubject,
   }) {
     final arrayPath = Utils.arrayPathFromWeekDay(weekDay);
+
     return _schedules
         .where(_groupField, isEqualTo: group)
         .limit(1)
         .get()
         .then((value) {
-      if (value.docs.isNotEmpty) {
-        return value.docs.first.reference
-            .update({
-              arrayPath: FieldValue.arrayRemove([subject.toMap()]),
-            })
-            .then((_) => _schedules
-                .doc(group)
-                .update({
-                  arrayPath: FieldValue.arrayUnion([fieldSubject.toMap()])
-                })
-                .then((__) => true)
-                .catchError((error) {
-                  Logger.e('[updateSchedule] arrayUnion Error', error);
-                  return false;
-                }))
-            .catchError((error) {
-              Logger.e('[updateSchedule] arrayRemove Error', error);
-              return false;
-            });
-      } else {
+      if (value.docs.isEmpty) {
         Logger.d('[updateSchedule] Group: $group not found');
         return Future.value(false);
       }
+
+      final docRef = value.docs.first.reference;
+
+      return docRef
+          .update({
+            arrayPath: FieldValue.arrayRemove([subject.toMap()])
+          })
+          .then((_) => docRef.update({
+                arrayPath: FieldValue.arrayUnion([fieldSubject.toMap()])
+              }))
+          .then((_) => true)
+          .catchError((error) {
+            Logger.e('[updateSchedule] Error updating schedule', error);
+            return false;
+          });
     }).catchError((error) {
-      Logger.e('[updateSchedule] Error', error);
+      Logger.e('[updateSchedule] Error querying schedules', error);
       return false;
     });
   }

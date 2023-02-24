@@ -49,7 +49,7 @@ class AreYouSure extends StatelessWidget {
                   spacing: 16,
                   children: [
                     AppTextButton(
-                      width: 60,
+                      width: 80,
                       title: appLocale.cancel,
                       onPressed: () => Navigator.pop(context, false),
                     ),

@@ -124,7 +124,7 @@ class _LoginViewState extends State<LoginView> {
                     builder: (context, isDisabled, child) {
                       return AppElevatedButton(
                         title: AppLocale(context).login,
-                        width: 100,
+                        width: 120,
                         height: 40,
                         isDisabled: isDisabled,
                         onPressed: _login,

@@ -131,7 +131,7 @@ class _ManageSubjectDialogState extends State<ManageSubjectDialog> {
                   spacing: 16,
                   children: [
                     AppTextButton(
-                      width: 60,
+                      width: 90,
                       title: locale.cancel,
                       onPressed: () => Navigator.pop(context),
                     ),
@@ -140,7 +140,7 @@ class _ManageSubjectDialogState extends State<ManageSubjectDialog> {
                         valueListenable: _controller.isLoading,
                         builder: (context, value, child) => AppElevatedButton(
                           title: locale.remove,
-                          width: 100,
+                          width: 120,
                           isDisabled: value,
                           onPressed: _controller.remove,
                         ),
@@ -152,7 +152,7 @@ class _ManageSubjectDialogState extends State<ManageSubjectDialog> {
                         title: _controller.subject != null
                             ? locale.update
                             : locale.add,
-                        width: 100,
+                        width: 120,
                         isDisabled: value,
                         onPressed: _controller.manage,
                       ),
