@@ -151,4 +151,5 @@ class AppLocale {
   String get addUser => locale?.addUser ?? 'Add User';
   String get nameWrong => locale?.nameWrong ?? 'Name is wrong';
   String get emailAlreadyExists => locale?.emailAlreadyExists ?? 'That email is already exists';
+  String get selectAtLeastOneGroup => locale?.selectAtLeastOneGroup ?? 'Select at least one group';
 }

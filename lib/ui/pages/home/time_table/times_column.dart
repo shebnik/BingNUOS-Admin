@@ -26,7 +26,8 @@ class TimesColumn extends StatelessWidget {
         ),
       ),
       child: DataTable(
-        dataRowHeight: dataRowHeight,
+        dataRowMinHeight: dataRowHeight,
+        dataRowMaxHeight: dataRowHeight,
         border: TableBorder.symmetric(
           inside: BorderSide(
             color: Theme.of(context).splashColor,

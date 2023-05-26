@@ -43,13 +43,13 @@ class BingNuosAuthWidget extends StatelessWidget {
                           color: Theme.of(context).splashColor,
                           constraints: const BoxConstraints.expand(),
                         ),
-                        Column(
+                        const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const AppLogoWidget(),
+                            AppLogoWidget(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
+                              children: [
                                 ThemeSwitchIconButton(),
                                 LanguageSelector(),
                               ],

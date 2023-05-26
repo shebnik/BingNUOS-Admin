@@ -33,19 +33,20 @@ class FunctionsService {
     String email,
     List<String> moderationGroups,
   ) async {
-    try {
-      final result = await _registerUser({
-        'name': name,
-        'email': email,
-        'moderationGroups': moderationGroups,
-      });
-      Logger.i("[registerUser] result: ${result.data}");
+    final result = await _registerUser({
+      'name': name,
+      'email': email,
+      'moderationGroups': moderationGroups,
+    });
+    Logger.i("[registerUser] result: ${result.data}");
+    bool success = result.data.toString().toLowerCase() == 'true';
+    if (success) {
       return {
-        bool.fromEnvironment(result.data): result.data.toString(),
+        success: '',
       };
-    } catch (e) {
+    } else {
       return {
-        false: e.toString(),
+        success: result.data.toString(),
       };
     }
   }

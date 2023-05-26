@@ -78,5 +78,6 @@
     "removedSuccessfully": "is removed successfully.",
     "addUser": "Add user",
     "nameWrong": "Name is wrong",
-    "emailAlreadyExists": "That email is already exists"
+    "emailAlreadyExists": "That email is already exists",
+    "selectAtLeastOneGroup": "Select at least one group"
 }

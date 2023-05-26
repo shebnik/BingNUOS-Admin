@@ -78,5 +78,6 @@
     "removedSuccessfully": "успішно видалено.",
     "addUser": "Додати користувача",
     "nameWrong": "Ім'я вказано невірно",
-    "emailAlreadyExists": "Эта електронна пошта вже існує"
+    "emailAlreadyExists": "Эта електронна пошта вже існує",
+    "selectAtLeastOneGroup": "Виберіть хоча б одну групу"
 }

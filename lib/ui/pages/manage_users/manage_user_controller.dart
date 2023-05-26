@@ -1,14 +1,14 @@
+import 'package:flutter/material.dart';
+
 import 'package:bingnuos_admin_panel/models/app_user/app_user.dart';
-import 'package:bingnuos_admin_panel/services/firebase/auth_service.dart';
 import 'package:bingnuos_admin_panel/services/firebase/firestore_service.dart';
 import 'package:bingnuos_admin_panel/services/firebase/functions_service.dart';
 import 'package:bingnuos_admin_panel/services/firebase/realtime_database.dart';
 import 'package:bingnuos_admin_panel/services/snackbar_service.dart';
+import 'package:bingnuos_admin_panel/utils/app_locale.dart';
+import 'package:bingnuos_admin_panel/utils/logger.dart';
 import 'package:bingnuos_admin_panel/utils/utils.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../../../utils/logger.dart';
 import 'manage_user.dart';
 
 class ManageUserController {
@@ -74,7 +74,7 @@ class ManageUserController {
     String name = nameTEC.value.text;
     String email = emailTEC.value.text.trim().toLowerCase();
 
-    if (_validate(name, email)) {
+    if (_validate(context, name, email, user.value.moderationGroups ?? [])) {
       Map<bool, String> result = await FunctionsService().registerUser(
         name,
         email,
@@ -84,16 +84,25 @@ class ManageUserController {
       String e = result.values.first;
       Logger.i("[createAccount] success: $success, error: $e");
       if (!success && mounted) {
-        SnackBarService(context).show(
-          context.read<AuthService>().getFirebaseAuthErrorMessage(e, context),
-        );
+        String message = AppLocale(context).somethingWentWrong;
+        if (e.contains('email-already-exists')) {
+          message = AppLocale(context).emailAlreadyExists;
+        }
+        SnackBarService(context).show(message);
+        return null;
       }
+      return true;
     }
     isLoading.value = false;
     return null;
   }
 
-  bool _validate(String name, String email) {
+  bool _validate(
+    BuildContext context,
+    String name,
+    String email,
+    List<String> groups,
+  ) {
     if (!Utils.nameValid(name)) {
       isNameError.value = true;
       return false;
@@ -101,6 +110,11 @@ class ManageUserController {
 
     if (!Utils.emailValid(email)) {
       isEmailError.value = true;
+      return false;
+    }
+
+    if (groups.isEmpty) {
+      SnackBarService(context).show(AppLocale(context).selectAtLeastOneGroup);
       return false;
     }
 

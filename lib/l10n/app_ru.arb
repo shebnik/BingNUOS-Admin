@@ -78,5 +78,6 @@
     "removedSuccessfully": "успешно удален.",
     "addUser": "Добавить пользователя",
     "nameWrong": "Имя указано неверно",
-    "emailAlreadyExists": "Эта электронная почта уже существует"
+    "emailAlreadyExists": "Эта электронная почта уже существует",
+    "selectAtLeastOneGroup": "Выберите хотя бы одну группу"
 }

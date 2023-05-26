@@ -18,13 +18,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const HomePageAppBar(),
+    return const Scaffold(
+      appBar: HomePageAppBar(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
-          children: const [
+          children: [
             SizedBox(height: 16),
             WeekDayChips(),
             SizedBox(height: 30),
