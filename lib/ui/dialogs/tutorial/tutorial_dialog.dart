@@ -1,9 +1,12 @@
+import 'package:bingnuos_admin_panel/constants.dart';
+import 'package:bingnuos_admin_panel/services/hive_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bingnuos_admin_panel/ui/components/buttons/app_elevated_button.dart';
 import 'package:bingnuos_admin_panel/ui/theme/app_theme.dart';
 import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 import 'package:bingnuos_admin_panel/utils/utils.dart';
+import 'package:provider/provider.dart';
 
 class InstructionDialog extends StatelessWidget {
   const InstructionDialog({
@@ -36,6 +39,9 @@ class InstructionDialog extends StatelessWidget {
                     style: Theme.of(context).textTheme.headlineLarge),
               ),
               const SizedBox(height: 25),
+              if (context.read<HiveService>().getAppUser()?.role == admin) ...[
+                tutorialTile(AppLocale(context).tutorialAdmin),
+              ],
               tutorialTile(AppLocale(context).tutorial1),
               tutorialTile(AppLocale(context).tutorial2),
               tutorialTile(AppLocale(context).tutorial3),

@@ -1,13 +1,12 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:bingnuos_admin_panel/constants.dart';
 import 'package:bingnuos_admin_panel/models/app_user/app_user.dart';
 import 'package:bingnuos_admin_panel/models/schedule/schedule.dart';
 import 'package:bingnuos_admin_panel/models/schedule/subject.dart';
 import 'package:bingnuos_admin_panel/utils/logger.dart';
 import 'package:bingnuos_admin_panel/utils/utils.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreService {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -17,8 +16,9 @@ class FirestoreService {
   static const String _schedulesCollectionPath = 'schedules';
 
   // Fields
+  static const String _roleField = 'role';
   static const String _adminRoleField = 'admin';
-  // static const String _moderatorRoleField = 'moderator';
+  static const String _moderatorRoleField = 'moderator';
   static const String _groupField = 'group';
   static const String _moderationGroupsField = 'moderationGroups';
 
@@ -218,6 +218,29 @@ class FirestoreService {
         .then((value) => true)
         .catchError((error) {
           Logger.e('[removeUserModerationGroup] Error', error);
+          return false;
+        });
+  }
+
+  static Stream<List<AppUser>> getModerators() {
+    return _users
+        .where(_roleField, isEqualTo: _moderatorRoleField)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) => doc.data()).toList();
+    }).handleError((error) {
+      Logger.e('[getModerators] Error', error);
+      return const <AppUser>[];
+    });
+  }
+
+  static Future<bool> updateUser(AppUser user) {
+    return _users
+        .doc(user.userId)
+        .update(user.toMap())
+        .then((value) => true)
+        .catchError((error) {
+          Logger.e('[removeUser] Error', error);
           return false;
         });
   }

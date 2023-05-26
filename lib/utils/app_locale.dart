@@ -66,6 +66,7 @@ class AppLocale {
   // Menu
   String get tutorial => locale?.tutorial ?? 'Tutorial';
   String get notices => locale?.notices ?? 'Notices';
+  String get manageUsers => locale?.manageUsers ?? 'Manage Users';
   String get logout => locale?.logout ?? 'Logout';
 
   // Home
@@ -84,6 +85,9 @@ class AppLocale {
   String get noSchedules => locale?.noSchedules ?? 'No schedules';
 
   // Tutorial
+  String get tutorialAdmin =>
+      locale?.tutorialAdmin ??
+      'You can add a moderator by specifying their name and email and setting up the groups available to them. The moderator can enter the panel by resetting his or her email password.';
   String get tutorial1 =>
       locale?.tutorial1 ??
       'You can switch days of the week using the panel at the top.';
@@ -109,11 +113,12 @@ class AppLocale {
   String get groupNumberWrong =>
       locale?.groupNumberWrong ?? 'Group number is wrong';
 
+  String get youRemoving =>
+      locale?.youAreRemovingGroup ?? "You're removing the group";
+  String get thisAction =>
+      locale?.thisActionCannotBeUndone ?? "This action cannot be undone.";
   String removeGroupConfirmationDescription(String group) {
-    String desc1 = locale?.youAreRemovingGroup ?? "You're removing the group";
-    String desc2 =
-        locale?.thisActionCannotBeUndone ?? "This action cannot be undone.";
-    return "$desc1: $group.\n\n$desc2";
+    return "$youRemoving: $group.\n\n$thisAction";
   }
 
   // ManageSubjectDialog
@@ -135,4 +140,15 @@ class AppLocale {
       locale?.cabinetNumberWrong ?? 'Cabinet number is wrong';
   String get teacherNameWrong =>
       locale?.teacherNameWrong ?? 'Teacher name is wrong';
+
+  // ManageUserDialog
+  String get areYouSureRemoveUser =>
+      locale?.areYouSureRemoveUser ??
+      "Are you sure you want to remove the user";
+  String get user => locale?.user ?? 'User';
+  String get removedSuccessfully =>
+      locale?.removedSuccessfully ?? 'Removed successfully';
+  String get addUser => locale?.addUser ?? 'Add User';
+  String get nameWrong => locale?.nameWrong ?? 'Name is wrong';
+  String get emailAlreadyExists => locale?.emailAlreadyExists ?? 'That email is already exists';
 }

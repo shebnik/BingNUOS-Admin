@@ -15,6 +15,7 @@ const String loginError = 'Login error';
 const String loginLoc = '/login';
 const String resetPasswordLoc = '/reset-password';
 const String rootLoc = '/';
+const String manageUsersLoc = '/manage-users';
 
 const String admin = 'admin';
 const String moderator = 'moderator';

@@ -10,3 +10,14 @@ class GroupSearchProvider with ChangeNotifier {
     notifyListeners();
   }
 }
+
+class ManageUserGroupSearchbarProvider with ChangeNotifier {
+  String _searchValue = "";
+
+  String get searchValue => _searchValue;
+
+  set searchValue(String value) {
+    _searchValue = value;
+    notifyListeners();
+  }
+}

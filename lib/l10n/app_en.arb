@@ -35,6 +35,7 @@
     "number": "number",
     "tutorial": "Tutorial",
     "notices": "Notices",
+    "manageUsers": "Manage users",
     "logout": "Logout",
     "searchGroups": "Search groups",
     "tutorial1": "You can switch days of the week using the panel at the top.",
@@ -43,6 +44,7 @@
     "tutorial4": "In the subject addition window, you can specify a specific name, room number, and teacher's name.",
     "tutorial5": "When you click on the subject window, you can change the data in it.",
     "tutorial6": "When you click on the group window, you can change its name.",
+    "tutorialAdmin": "You can add a moderator by specifying their name and email and setting up the groups available to them. The moderator can enter the panel by resetting his or her email password.",
     "monday": "Monday",
     "tuesday": "Tuesday",
     "wednesday": "Wednesday",
@@ -70,5 +72,11 @@
     "teacherNameHint": "Enter teacher name",
     "subjectNameWrong": "Subject name is wrong",
     "cabinetNumberWrong": "Cabinet number is wrong",
-    "teacherNameWrong": "Teacher name is wrong"
+    "teacherNameWrong": "Teacher name is wrong",
+    "areYouSureRemoveUser": "Are you sure you want to remove the user",
+    "user": "User",
+    "removedSuccessfully": "is removed successfully.",
+    "addUser": "Add user",
+    "nameWrong": "Name is wrong",
+    "emailAlreadyExists": "That email is already exists"
 }

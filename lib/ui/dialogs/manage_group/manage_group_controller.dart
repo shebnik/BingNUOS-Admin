@@ -1,3 +1,4 @@
+import 'package:bingnuos_admin_panel/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -66,7 +67,7 @@ class ManageGroupController {
   Future<bool> deleteGroup() async {
     final user = context.read<HiveService>().getAppUser();
     bool success = await FirestoreService.deleteScheduleGroup(group!);
-    if (user != null && user.role == 'moderator') {
+    if (user != null && user.role == moderator) {
       await FirestoreService.removeUserModerationGroup(user.userId, group!);
     }
     return success;
@@ -79,7 +80,7 @@ class ManageGroupController {
         group: newGroupName,
       ),
     );
-    if (success && user != null && user.role == 'moderator') {
+    if (success && user != null && user.role == moderator) {
       await FirestoreService.addUserModerationGroup(user.userId, newGroupName);
     }
     return success;
@@ -91,7 +92,7 @@ class ManageGroupController {
       group: group!,
       newGroupName: newGroupName,
     );
-    if (success && user != null && user.role == 'moderator') {
+    if (success && user != null && user.role == moderator) {
       await FirestoreService.removeUserModerationGroup(user.userId, group!);
       await FirestoreService.addUserModerationGroup(user.userId, newGroupName);
     }

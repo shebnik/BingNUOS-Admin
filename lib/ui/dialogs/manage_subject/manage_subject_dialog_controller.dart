@@ -22,19 +22,19 @@ class ManageSubjectDialogController {
   });
 
   // TextEditingControllers
-  final nameTFC = TextEditingController();
-  final teacherTFC = TextEditingController();
-  final cabinetTFC = TextEditingController();
+  final nameTEC = TextEditingController();
+  final teacherTEC = TextEditingController();
+  final cabinetTEC = TextEditingController();
 
-  final evenNameTFC = TextEditingController();
-  final evenTeacherTFC = TextEditingController();
-  final evenCabinetTFC = TextEditingController();
+  final evenNameTEC = TextEditingController();
+  final evenTeacherTEC = TextEditingController();
+  final evenCabinetTEC = TextEditingController();
 
-  final oddNameTFC = TextEditingController();
-  final oddTeacherTFC = TextEditingController();
-  final oddCabinetTFC = TextEditingController();
+  final oddNameTEC = TextEditingController();
+  final oddTeacherTEC = TextEditingController();
+  final oddCabinetTEC = TextEditingController();
 
-  // isTFCError
+  // isTECError
   final isNameError = ValueNotifier(false);
   final isTeacherError = ValueNotifier(false);
   final isCabinetError = ValueNotifier(false);
@@ -140,38 +140,38 @@ class ManageSubjectDialogController {
 
     isDivided.value = subject!.isDivided;
 
-    nameTFC.text = subject!.subject?.name ?? '';
-    teacherTFC.text = subject!.subject?.teacher ?? '';
-    cabinetTFC.text = subject!.subject?.cabinet ?? '';
+    nameTEC.text = subject!.subject?.name ?? '';
+    teacherTEC.text = subject!.subject?.teacher ?? '';
+    cabinetTEC.text = subject!.subject?.cabinet ?? '';
 
-    evenNameTFC.text = subject!.evenSubject?.name ?? '';
-    evenTeacherTFC.text = subject!.evenSubject?.teacher ?? '';
-    evenCabinetTFC.text = subject!.evenSubject?.cabinet ?? '';
+    evenNameTEC.text = subject!.evenSubject?.name ?? '';
+    evenTeacherTEC.text = subject!.evenSubject?.teacher ?? '';
+    evenCabinetTEC.text = subject!.evenSubject?.cabinet ?? '';
 
-    oddNameTFC.text = subject!.oddSubject?.name ?? '';
-    oddTeacherTFC.text = subject!.oddSubject?.teacher ?? '';
-    oddCabinetTFC.text = subject!.oddSubject?.cabinet ?? '';
+    oddNameTEC.text = subject!.oddSubject?.name ?? '';
+    oddTeacherTEC.text = subject!.oddSubject?.teacher ?? '';
+    oddCabinetTEC.text = subject!.oddSubject?.cabinet ?? '';
   }
 
   Subject? readFields() {
     SubjectInfo? subjectInfo, evenSubjectInfo, oddSubjectInfo;
 
     subjectInfo = SubjectInfo(
-      name: nameTFC.value.text,
-      cabinet: cabinetTFC.value.text,
-      teacher: teacherTFC.value.text,
+      name: nameTEC.value.text,
+      cabinet: cabinetTEC.value.text,
+      teacher: teacherTEC.value.text,
     );
 
     evenSubjectInfo = SubjectInfo(
-      name: evenNameTFC.value.text,
-      cabinet: evenCabinetTFC.value.text,
-      teacher: evenTeacherTFC.value.text,
+      name: evenNameTEC.value.text,
+      cabinet: evenCabinetTEC.value.text,
+      teacher: evenTeacherTEC.value.text,
     );
 
     oddSubjectInfo = SubjectInfo(
-      name: oddNameTFC.value.text,
-      cabinet: oddCabinetTFC.value.text,
-      teacher: oddTeacherTFC.value.text,
+      name: oddNameTEC.value.text,
+      cabinet: oddCabinetTEC.value.text,
+      teacher: oddTeacherTEC.value.text,
     );
 
     if (isDivided.value) {
@@ -265,29 +265,29 @@ class ManageSubjectDialogController {
       case SubjectType.subject:
         switch (controllerType) {
           case SubjectControllerType.name:
-            return nameTFC;
+            return nameTEC;
           case SubjectControllerType.cabinet:
-            return cabinetTFC;
+            return cabinetTEC;
           case SubjectControllerType.teacher:
-            return teacherTFC;
+            return teacherTEC;
         }
       case SubjectType.evenSubject:
         switch (controllerType) {
           case SubjectControllerType.name:
-            return evenNameTFC;
+            return evenNameTEC;
           case SubjectControllerType.cabinet:
-            return evenCabinetTFC;
+            return evenCabinetTEC;
           case SubjectControllerType.teacher:
-            return evenTeacherTFC;
+            return evenTeacherTEC;
         }
       case SubjectType.oddSubject:
         switch (controllerType) {
           case SubjectControllerType.name:
-            return oddNameTFC;
+            return oddNameTEC;
           case SubjectControllerType.cabinet:
-            return oddCabinetTFC;
+            return oddCabinetTEC;
           case SubjectControllerType.teacher:
-            return oddTeacherTFC;
+            return oddTeacherTEC;
         }
     }
   }

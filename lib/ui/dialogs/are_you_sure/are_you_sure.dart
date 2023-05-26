@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
-
 import 'package:bingnuos_admin_panel/ui/components/buttons/app_elevated_button.dart';
 import 'package:bingnuos_admin_panel/ui/components/buttons/app_text_button.dart';
 import 'package:bingnuos_admin_panel/utils/app_locale.dart';
+import 'package:flutter/material.dart';
 
 class AreYouSure extends StatelessWidget {
   final String description;
@@ -49,7 +48,7 @@ class AreYouSure extends StatelessWidget {
                   spacing: 16,
                   children: [
                     AppTextButton(
-                      width: 80,
+                      width: 90,
                       title: appLocale.cancel,
                       onPressed: () => Navigator.pop(context, false),
                     ),

@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,7 @@ class AppTextField extends StatelessWidget {
     this.focusNode,
     this.prefixIcon,
     this.accountToggle,
+    this.enabled,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -31,6 +33,7 @@ class AppTextField extends StatelessWidget {
   final FocusNode? focusNode;
   final Icon? prefixIcon;
   final VoidCallback? accountToggle;
+  final bool? enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +44,7 @@ class AppTextField extends StatelessWidget {
         valueListenable: obscureText,
         builder: (context, value, child) {
           return TextField(
+            enabled: enabled,
             focusNode: focusNode,
             enableSuggestions: inputType == InputType.password ? false : true,
             autocorrect: inputType == InputType.password ? false : true,
@@ -54,6 +58,18 @@ class AppTextField extends StatelessWidget {
                 inputType == InputType.number ? TextInputType.number : null,
             style: Theme.of(context).textTheme.labelLarge,
             decoration: InputDecoration(
+              fillColor: enabled ?? true ? null : Colors.grey.withOpacity(0.1),
+              labelStyle: enabled ?? true
+                  ? null
+                  : TextStyle(
+                      color: Colors.grey.withOpacity(0.5),
+                    ),
+              disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16.0),
+                borderSide: BorderSide(
+                  color: Colors.grey.withOpacity(0.5),
+                ),
+              ),
               contentPadding: const EdgeInsets.symmetric(
                 vertical: 20.0,
                 horizontal: 16.0,

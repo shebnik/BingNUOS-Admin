@@ -97,4 +97,12 @@ class Utils {
         return WeekDay.friday;
     }
   }
+
+  static bool nameValid(String name) {
+    if (name.isEmpty || name.length < 3) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

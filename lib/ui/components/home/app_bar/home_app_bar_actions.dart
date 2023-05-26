@@ -1,9 +1,11 @@
 import 'package:bingnuos_admin_panel/constants.dart';
 import 'package:bingnuos_admin_panel/services/firebase/auth_service.dart';
+import 'package:bingnuos_admin_panel/services/hive_service.dart';
 import 'package:bingnuos_admin_panel/ui/dialogs/tutorial/tutorial_dialog.dart';
 import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 import 'package:bingnuos_admin_panel/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class HomeAppBarActions extends StatefulWidget {
@@ -14,20 +16,24 @@ class HomeAppBarActions extends StatefulWidget {
 }
 
 class _HomeAppBarActionsState extends State<HomeAppBarActions> {
-  Future<void> _popupMenuSelected(value) async {
+  Future<void> _popupMenuSelected(String value) async {
     switch (value) {
-      case 0:
+      case "Tutorial":
         // Tutorial
         await showDialog(
           context: context,
           builder: (context) => const InstructionDialog(),
         );
         break;
-      case 1:
+      case "Notices":
         // Notices
         await Utils.openURL(notesURL);
         break;
-      case 2:
+      case "Manage Users":
+        // Manage Users
+        context.push(manageUsersLoc);
+        break;
+      case "Logout":
         // Log out
         await context.read<AuthService>().signOut();
         break;
@@ -47,22 +53,31 @@ class _HomeAppBarActionsState extends State<HomeAppBarActions> {
       splashRadius: 20,
       itemBuilder: (context) {
         return [
-          PopupMenuItem(
-            value: 0,
-            child: Text(
-              AppLocale(context).tutorial,
-              style: Theme.of(context).textTheme.titleMedium,
+          if (context.read<HiveService>().getAppUser()?.role == admin) ...[
+            PopupMenuItem(
+              value: "Manage Users",
+              child: Text(
+                AppLocale(context).manageUsers,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
             ),
-          ),
+          ],
           PopupMenuItem(
-            value: 1,
+            value: "Notices",
             child: Text(
               AppLocale(context).notices,
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
           PopupMenuItem(
-            value: 2,
+            value: "Tutorial",
+            child: Text(
+              AppLocale(context).tutorial,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ),
+          PopupMenuItem(
+            value: "Logout",
             child: Text(
               AppLocale(context).logout,
               style: Theme.of(context).textTheme.titleMedium,

@@ -59,6 +59,8 @@ class AuthService {
         return AppLocale(context).emailWrong;
       case 'wrong-password':
         return AppLocale(context).passwordWrong;
+      case 'email-already-exists':
+        return AppLocale(context).emailAlreadyExists;
       default:
         return errorString.substring(errorString.indexOf("] ") + 2);
     }

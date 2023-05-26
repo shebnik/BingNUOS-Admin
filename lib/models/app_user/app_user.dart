@@ -99,4 +99,14 @@ class AppUser extends HiveObject {
         role.hashCode ^
         moderationGroups.hashCode;
   }
+
+  static AppUser empty() {
+    return AppUser(
+      name: '',
+      email: '',
+      userId: '',
+      role: '',
+      moderationGroups: [],
+    );
+  }
 }

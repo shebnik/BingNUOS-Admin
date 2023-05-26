@@ -1,3 +1,4 @@
+import 'package:bingnuos_admin_panel/ui/pages/manage_users/manage_users_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class AppRouter {
         Logger.i('redirecting to login page');
         return loginLoc;
       }
-      if (loggedIn) {
+      if (loggedIn && state.subloc != manageUsersLoc) {
         Logger.i('redirecting to root page');
         return rootLoc;
       }
@@ -34,6 +35,10 @@ class AppRouter {
     },
     debugLogDiagnostics: true,
     routes: [
+      GoRoute(
+        path: manageUsersLoc,
+        builder: (context, routerState) => const ManageUsersPage(),
+      ),
       GoRoute(
         path: rootLoc,
         builder: (context, routerState) => const LoggedInView(),

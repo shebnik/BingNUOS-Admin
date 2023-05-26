@@ -49,6 +49,9 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => GroupSearchProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => ManageUserGroupSearchbarProvider(),
+        ),
       ],
       child: const MyApp(),
     ),
