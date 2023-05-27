@@ -20,8 +20,8 @@ class Utils {
 
   static bool passwordValid(password) => RegExp(r'^.{6,}$').hasMatch(password);
 
-  static bool validateGroup(String number) {
-    if (number.isEmpty || number.contains(' ')) {
+  static bool validateGroup(String name) {
+    if (name.length < 3) {
       return false;
     } else {
       return true;

@@ -2,6 +2,7 @@ import 'package:bingnuos_admin_panel/constants.dart';
 import 'package:bingnuos_admin_panel/models/app_user/app_user.dart';
 import 'package:bingnuos_admin_panel/services/firebase/firestore_service.dart';
 import 'package:bingnuos_admin_panel/services/firebase/functions_service.dart';
+import 'package:bingnuos_admin_panel/services/firebase/realtime_database.dart';
 import 'package:bingnuos_admin_panel/ui/dialogs/are_you_sure/are_you_sure.dart';
 import 'package:bingnuos_admin_panel/utils/app_locale.dart';
 import 'package:flutter/material.dart';
@@ -60,31 +61,42 @@ class _ManageUsersPageState extends State<ManageUsersPage> {
                 return const Center(child: CircularProgressIndicator());
               }
               List<AppUser> moderators = snapshot.data as List<AppUser>;
-              return ListView.separated(
-                itemCount: moderators.length,
-                separatorBuilder: (context, index) => const Divider(),
-                itemBuilder: (context, index) {
-                  AppUser moderator = moderators[index];
-                  String moderatorGroups =
-                      moderator.moderationGroups?.isNotEmpty == true
-                          ? moderator.moderationGroups!.join(", ")
-                          : "";
-                  return ListTile(
-                    title: Text(moderator.name),
-                    subtitle: Text("${moderator.email}\n$moderatorGroups"),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.edit),
-                          onPressed: () => _manageUser(moderator),
+              return FutureBuilder(
+                future: RealtimeDatabase.getAllGroups(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  Map<String, String> groups =
+                      snapshot.data as Map<String, String>;
+                  return ListView.separated(
+                    itemCount: moderators.length,
+                    separatorBuilder: (context, index) => const Divider(),
+                    itemBuilder: (context, index) {
+                      AppUser moderator = moderators[index];
+                      String moderatorGroups =
+                          moderator.moderationGroups?.isNotEmpty == true
+                              ? moderator.moderationGroups!.map((groupId) => groups[groupId]).join(", ")
+                              : "";
+                      return ListTile(
+                        title: Text(moderator.name),
+                        isThreeLine: moderatorGroups.isNotEmpty,
+                        subtitle: Text("${moderator.email}\n$moderatorGroups"),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () => _manageUser(moderator),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () => _removeUser(moderator),
+                            ),
+                          ],
                         ),
-                        IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () => _removeUser(moderator),
-                        ),
-                      ],
-                    ),
+                      );
+                    },
                   );
                 },
               );
@@ -119,7 +131,7 @@ class _ManageUsersPageState extends State<ManageUsersPage> {
         false;
     if (result != true) return;
     await _functionsService.removeUser(user.userId);
-    if(!mounted) return;
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(

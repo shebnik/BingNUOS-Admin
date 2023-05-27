@@ -24,16 +24,16 @@ class ManageUserController {
   final isNameError = ValueNotifier(false);
   final isEmailError = ValueNotifier(false);
 
-  ValueNotifier<List<String>> allItems = ValueNotifier([]);
-  ValueNotifier<List<String>> filteredItems = ValueNotifier([]);
+  ValueNotifier<Map<String, String>> allItems = ValueNotifier({});
+  ValueNotifier<Map<String, String>> filteredItems = ValueNotifier({});
 
   ManageUserController({
     required this.type,
     AppUser? user,
   }) {
     this.user = ValueNotifier(user ?? AppUser.empty());
-    allItems = ValueNotifier([]);
-    filteredItems = ValueNotifier([]);
+    allItems = ValueNotifier({});
+    filteredItems = ValueNotifier({});
   }
 
   Future<void> getGroups() async {
@@ -49,21 +49,9 @@ class ManageUserController {
   }
 
   void updateItems(String group) {
-    filteredItems.value =
-        allItems.value.where((element) => element.contains(group)).toList()
-          ..sort((a, b) {
-            final userModerationGroups = user.value.moderationGroups ?? [];
-            final aContainsGroup = userModerationGroups.contains(a);
-            final bContainsGroup = userModerationGroups.contains(b);
-
-            if (aContainsGroup && !bContainsGroup) {
-              return -1;
-            } else if (!aContainsGroup && bContainsGroup) {
-              return 1;
-            } else {
-              return 0;
-            }
-          });
+    filteredItems.value = allItems.value.entries
+            .where((entry) => entry.value.contains(group))
+            .fold({}, (acc, e) => acc..[e.key] = e.value); 
   }
 
   Future<bool?> createAccount(BuildContext context, mounted) async {

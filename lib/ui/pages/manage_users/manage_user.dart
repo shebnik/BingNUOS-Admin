@@ -103,28 +103,28 @@ class _ManageUserState extends State<ManageUser> {
                     builder: (_, filtered, __) => ListView.builder(
                       itemCount: filtered.length,
                       itemBuilder: (context, index) {
-                        final item = filtered[index];
                         return ValueListenableBuilder(
                           valueListenable: _controller.user,
                           builder: (_, u, __) {
                             return CheckboxListTile(
                               key: UniqueKey(),
-                              title: Text(item),
-                              value:
-                                  u.moderationGroups?.contains(item) ?? false,
+                              title: Text(filtered.values.elementAt(index)),
+                              value: u.moderationGroups?.contains(
+                                      filtered.keys.elementAt(index)) ??
+                                  false,
                               onChanged: (value) {
                                 if (value ?? false) {
                                   _controller.user.value = u.copyWith(
                                     moderationGroups: [
                                       ...u.moderationGroups ?? [],
-                                      item,
+                                      filtered.keys.elementAt(index),
                                     ],
                                   );
                                 } else {
                                   _controller.user.value = u.copyWith(
                                     moderationGroups: [
                                       ...u.moderationGroups ?? [],
-                                    ]..remove(item),
+                                    ]..remove(filtered.keys.elementAt(index)),
                                   );
                                 }
                               },
@@ -162,7 +162,10 @@ class _ManageUserState extends State<ManageUser> {
                             onPressed: () async {
                               bool? res;
                               if (_controller.type == ManageUserType.add) {
-                                res = await _controller.createAccount(context, mounted);
+                                res = await _controller.createAccount(
+                                  context,
+                                  mounted,
+                                );
                               } else {
                                 res = await _controller.updateAccount();
                               }

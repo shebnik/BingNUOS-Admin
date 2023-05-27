@@ -53,7 +53,7 @@ class FirestoreService {
 
     return _firestore
         .collection(_schedulesCollectionPath)
-        .where(_groupField, whereIn: user.moderationGroups)
+        .where(FieldPath.documentId, whereIn: user.moderationGroups)
         .snapshots();
   }
 
