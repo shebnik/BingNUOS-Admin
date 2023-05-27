@@ -1,3 +1,4 @@
+import 'package:bingnuos_admin_panel/services/firebase/firestore_service.dart';
 import 'package:bingnuos_admin_panel/ui/pages/manage_users/manage_users_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -18,7 +19,7 @@ class AppRouter {
 
   late final router = GoRouter(
     refreshListenable: firebaseUser,
-    redirect: (context, state) {
+    redirect: (context, state) async {
       final bool loggingIn =
           state.subloc == loginLoc || state.subloc == resetPasswordLoc;
       final bool loggedIn = firebaseUser.value != null;
@@ -28,6 +29,12 @@ class AppRouter {
         return loginLoc;
       }
       if (loggedIn && state.subloc != manageUsersLoc) {
+        Logger.i('redirecting to root page');
+        return rootLoc;
+      }
+      if (state.subloc == manageUsersLoc &&
+          (await FirestoreService.getUserById(firebaseUser.value!.uid)).role ==
+              moderator) {
         Logger.i('redirecting to root page');
         return rootLoc;
       }

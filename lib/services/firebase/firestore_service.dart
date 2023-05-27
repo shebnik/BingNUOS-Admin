@@ -240,8 +240,19 @@ class FirestoreService {
         .update(user.toMap())
         .then((value) => true)
         .catchError((error) {
-          Logger.e('[removeUser] Error', error);
-          return false;
-        });
+      Logger.e('[removeUser] Error', error);
+      return false;
+    });
+  }
+
+  static Future<AppUser> getUserById(String uid) {
+    return _users
+        .doc(uid)
+        .get()
+        .then((value) => value.data() as AppUser)
+        .catchError((error) {
+      Logger.e('[getUserById] Error', error);
+      return AppUser.empty();
+    });
   }
 }
