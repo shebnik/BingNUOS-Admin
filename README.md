@@ -8,9 +8,12 @@ The interface includes a table with columns for schedule times and rows for each
 
 The admin panel includes two types of users: administrators and moderators. Administrators have the ability to manage moderators, register user emails, and manage moderation groups. The panel also allows administrators to add, view, and modify group and schedule data. Moderators are assigned to specific moderation groups and can manage only the schedules and groups assigned to them.
 
-The admin panel is connected to the Firebase database, which enables real-time updates of schedules in the Telegram bot whenever changes are made in the panel. The application includes a firestore listener that automatically updates schedules in the Telegram bot whenever changes are made in the admin panel. This feature ensures that schedules are always up-to-date and that users receive the correct information in real-time.
+The admin panel is connected to the Firebase database, which enables real-time updates of schedules in the [Telegram bot](https://github.com/shebnik/BingNUOS-Telegram) whenever changes are made in the panel. This feature ensures that schedules are always up-to-date and that users receive the correct information in real-time.
 
 Overall, the BingNUOS admin panel is a powerful tool for managing the scheduling system for university students. Its user-friendly interface and real-time synchronization capabilities make it an essential component of the BingNUOS system.
+
+# Related
+[Telegram bot GitHub project](https://github.com/shebnik/BingNUOS-Telegram)
 
 # Screenshots
 
